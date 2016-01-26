@@ -1,13 +1,18 @@
 package com.example.jelena.smart_test;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,14 +23,19 @@ class MyAdapter extends BaseAdapter {
 
     ArrayList<HashMap<String, String>> dailyTasks;
     private Context context;
-    TextView text;
+    TextView title;
+    TextView dueDay;
+    TextView countdown;
+
+    CalendarOperations operations;
 
 
 
     public MyAdapter(Context context,ArrayList<HashMap<String, String>> dailyTasks){
+
         this.context=context;
         this.dailyTasks=dailyTasks;
-
+        operations=new CalendarOperations();
 
     }
     @Override
@@ -45,20 +55,27 @@ class MyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View raw;
+
+        View row;
         if (convertView==null){
-
-
             LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            raw= inflater.inflate(R.layout.custom_row, parent,false);
+            row= inflater.inflate(R.layout.custom_row, parent,false);
         }
         else {
-            raw = convertView;
+            row = convertView;
         }
-        text= (TextView) raw.findViewById(R.id.textView);
 
-        text.setText(dailyTasks.get(position).get("title"));
+        title= (TextView) row.findViewById(R.id.title);
+        dueDay= (TextView) row.findViewById(R.id.dueDate);
 
-        return raw;
+
+
+
+        dueDay.setText(operations.convertDateFormat(dailyTasks.get(position).get("DueDate")));
+
+        title.setText("Task title "+dailyTasks.get(position).get("title"));
+        countdown.setText(operations.daysBetween(dailyTasks.get(position).get("DueDate")));
+
+        return row;
     }
 }

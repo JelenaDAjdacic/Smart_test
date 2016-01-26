@@ -1,6 +1,9 @@
 package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,11 +67,29 @@ public class MainActivity extends AppCompatActivity {
         tasksList = new ArrayList<HashMap<String, String>>();
         tasksListView= (ListView) findViewById(R.id.todayTasks);
 
-        // Calling async task to get json
-        new GetContacts().execute();
+        if(isConnectingToInternet(getApplicationContext()))   {
+
+            // Calling async task to get json
+            new GetContacts().execute();}
+
+        else{
+
+            Toast.makeText(getApplicationContext(), "no internet", Toast.LENGTH_LONG).show();
+
+        }
     }
 
+    //Checking Internet connection
+    private boolean isConnectingToInternet(Context applicationContext){
+        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
 
+    }
 
     private class GetContacts extends AsyncTask<Void, Void, Void> {
 
@@ -122,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
                         task.put(TAG_DUE_DATE, dueDate);
                         task.put(TAG_DESCRIPTION, description);
                         task.put(TAG_PRIORITY,priority);
-                       // Log.d("Lallaal",targetDate);
 
                         // adding contact to contact list
                         tasksList.add(task);
@@ -150,8 +170,9 @@ public class MainActivity extends AppCompatActivity {
             adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(formattedDate));
             tasksListView.setAdapter(adapter);
 
-
         }
 
     }
+
+
 }
