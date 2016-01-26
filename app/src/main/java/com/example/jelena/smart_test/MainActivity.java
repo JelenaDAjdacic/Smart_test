@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String url="https://demo8035300.mockable.io/tasks";
     ListView tasksListView;
     JSONObject[] jsonObjects;
-    Calendar c;
+   // Calendar c;
     ProgressDialog pDialog;
 
     // JSON Node names
@@ -48,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayListManipulator arrayListManipulator;
 
-    String formattedDate=null;
+   // String formattedDate=null;
 
     MyAdapter adapter=null;
+
+    CalendarOperations calendarOperation;
 
 
     @Override
@@ -58,14 +60,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        c= Calendar.getInstance();
+       /* c= Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        formattedDate = dateFormat.format(c.getTime());
-
-
-
-        tasksList = new ArrayList<HashMap<String, String>>();
-        tasksListView= (ListView) findViewById(R.id.todayTasks);
+        formattedDate = dateFormat.format(c.getTime());*/
 
         if(isConnectingToInternet(getApplicationContext()))   {
 
@@ -77,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "no internet", Toast.LENGTH_LONG).show();
 
         }
+
+        tasksList = new ArrayList<HashMap<String, String>>();
+        tasksListView= (ListView) findViewById(R.id.todayTasks);
+
+        calendarOperation=new CalendarOperations();
+
+
     }
 
     //Checking Internet connection
@@ -167,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
              * Updating parsed JSON data into ListView
              */
             arrayListManipulator=new ArrayListManipulator(tasksList);
-            adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(formattedDate));
+            adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(calendarOperation.currentDate("yyyy-MM-dd")));
             tasksListView.setAdapter(adapter);
 
         }

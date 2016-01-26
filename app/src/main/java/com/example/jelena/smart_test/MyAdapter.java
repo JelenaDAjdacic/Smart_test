@@ -27,6 +27,10 @@ class MyAdapter extends BaseAdapter {
     TextView dueDay;
     TextView countdown;
 
+    String dueDateValue;
+    String titleValue;
+    String timeLeft;
+
     CalendarOperations operations;
 
 
@@ -67,14 +71,16 @@ class MyAdapter extends BaseAdapter {
 
         title= (TextView) row.findViewById(R.id.title);
         dueDay= (TextView) row.findViewById(R.id.dueDate);
+        countdown= (TextView) row.findViewById(R.id.countdown);
 
+        dueDateValue=dailyTasks.get(position).get("DueDate");
+        titleValue=dailyTasks.get(position).get("title");
 
+        dueDay.setText("Due date "+operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
 
-
-        dueDay.setText(operations.convertDateFormat(dailyTasks.get(position).get("DueDate")));
-
-        title.setText("Task title "+dailyTasks.get(position).get("title"));
-        countdown.setText(operations.daysBetween(dailyTasks.get(position).get("DueDate")));
+        title.setText("Task title "+titleValue);
+        countdown.setText("Left "+operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
+       // countdown.setText(operations.daysBetween(dailyTasks.get(position).get("DueDate")));
 
         return row;
     }
