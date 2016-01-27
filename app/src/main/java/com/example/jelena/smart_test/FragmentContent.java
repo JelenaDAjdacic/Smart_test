@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class FragmentContent extends Fragment {
     ArrayListManipulator arrayListManipulator;
 
     private static final String KEY_DATE = "date";
-    private static final String KEY_ARRAY = "date";
+    private static final String KEY_ARRAY = "tasks";
 
 
     public static FragmentContent newInstance(long date,ArrayList<HashMap<String, String>> tasksList) {
@@ -62,12 +63,12 @@ public class FragmentContent extends Fragment {
 
         final long millis = getArguments().getLong(KEY_DATE);
         tasksList= (ArrayList<HashMap<String, String>>) getArguments().getSerializable(KEY_ARRAY);
-      //  Toast.makeText(getContext(),"Lalalala"+tasksList.size(), Toast.LENGTH_SHORT).show();
         if (millis > 0) {
             final Context context = getActivity();
             if (context != null) {
 
                 tvContentValue = "This is the content for the date ";
+                Toast.makeText(getContext(),"Lalalala"+ TimeUtils.getFormattedDate(getActivity(), millis), Toast.LENGTH_SHORT).show();
 
                 return;
             }
@@ -84,7 +85,7 @@ public class FragmentContent extends Fragment {
         arrayListManipulator=new ArrayListManipulator(tasksList);
         calendarOperations=new CalendarOperations();
 
-        adapter = new MyAdapter(getContext(),arrayListManipulator.findArrayByDate(calendarOperations.currentDate("yyyy-MM-dd")));
+        adapter = new MyAdapter(getContext(),arrayListManipulator.findArrayByDate(TimeUtils.getFormattedDate(getActivity(), getArguments().getLong(KEY_DATE))));
 
         taskListView.setAdapter(adapter);
         return view;
