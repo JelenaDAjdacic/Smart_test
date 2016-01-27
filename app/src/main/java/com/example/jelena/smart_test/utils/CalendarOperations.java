@@ -1,4 +1,4 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.utils;
 
 import android.util.Log;
 
@@ -35,6 +35,15 @@ public class CalendarOperations {
         date=c.getTime();
 
         return date;
+    }
+    public String currentDate1(String format){
+        String formattedDate="";
+
+        c= Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        formattedDate = dateFormat.format(c.getTime());
+
+        return formattedDate;
     }
 
     public String convertDateFormat(String date, String oldFormat, String newFormat){

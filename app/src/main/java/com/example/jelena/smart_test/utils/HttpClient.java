@@ -1,4 +1,4 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

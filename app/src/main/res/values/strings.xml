@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Smart_test</string>
     <string name="task_title">Tasks</string>
+    <string name="date_format">yyyy-MM-dd</string>
 </resources>

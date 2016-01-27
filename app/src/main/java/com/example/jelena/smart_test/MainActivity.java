@@ -2,27 +2,34 @@ package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
+import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.HttpClient;
+import com.example.jelena.smart_test.utils.TimeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
     private final static String url="https://demo8035300.mockable.io/tasks";
     ListView tasksListView;
     JSONObject[] jsonObjects;
@@ -30,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog pDialog;
 
     // JSON Node names
-    private static final String TAG_TASKS = "tasks ";
+    static final String TAG_TASKS = "tasks ";
     private static final String TAG_ID = "id";
     private static final String TAG_TITLE = "title";
     private static final String TAG_TARGET_DATE = "TargetDate";
@@ -53,16 +60,17 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter adapter=null;
 
     CalendarOperations calendarOperation;
+    Context mContext;
+    ViewPager vpPager;
 
+    private CachingFragmentStatePagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-       /* c= Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        formattedDate = dateFormat.format(c.getTime());*/
+        tasksList = new ArrayList<>();
+        mContext = this;
 
         if(isConnectingToInternet(getApplicationContext()))   {
 
@@ -75,10 +83,53 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        tasksList = new ArrayList<HashMap<String, String>>();
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
+
+
+
+    }
+  /*  protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+
+
+
+
         tasksListView= (ListView) findViewById(R.id.todayTasks);
 
         calendarOperation=new CalendarOperations();
+
+
+    }*/
+
+    public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
+
+        private Calendar cal;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public int getCount() {
+            return TimeUtils.DAYS_OF_TIME;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
+            //Toast.makeText(getApplicationContext(),"Lalalala"+tasksList.size(), Toast.LENGTH_SHORT).show();
+
+            return FragmentContent.newInstance(timeForPosition,tasksList);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Calendar cal = TimeUtils.getDayForPosition(position);
+            return TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis());
+        }
 
 
     }
@@ -171,9 +222,17 @@ public class MainActivity extends AppCompatActivity {
              * Updating parsed JSON data into ListView
              */
             arrayListManipulator=new ArrayListManipulator(tasksList);
-            adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(calendarOperation.currentDate("yyyy-MM-dd")));
-            tasksListView.setAdapter(adapter);
+        //    adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(calendarOperation.currentDate("yyyy-MM-dd")));
+        //    tasksListView.setAdapter(adapter);
+          //  Toast.makeText(getApplicationContext(),tasksList.get(0).get("title"), Toast.LENGTH_SHORT).show();
 
+            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+            vpPager.setAdapter(adapterViewPager);
+
+
+
+            // set pager to current date
+            vpPager.setCurrentItem(TimeUtils.getPositionForDay(Calendar.getInstance()));
         }
 
     }
