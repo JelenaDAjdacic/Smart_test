@@ -1,33 +1,23 @@
 package com.example.jelena.smart_test;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
-
-
-
 /**
  * Created by Win 7 on 26.1.2016.
  */
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.PriorityComparator;
 import com.example.jelena.smart_test.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -35,10 +25,9 @@ import java.util.HashMap;
 
 public class FragmentContent extends Fragment {
 
-    private String tvContentValue;
-
     private ListView taskListView;
     ArrayList<HashMap<String, String>> tasksList;
+    ArrayList<HashMap<String, String>> sortedDailyList;
     CalendarOperations calendarOperations;
 
     MyAdapter adapter;
@@ -57,37 +46,28 @@ public class FragmentContent extends Fragment {
         return fragmentFirst;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        final long millis = getArguments().getLong(KEY_DATE);
-        tasksList= (ArrayList<HashMap<String, String>>) getArguments().getSerializable(KEY_ARRAY);
-        if (millis > 0) {
-            final Context context = getActivity();
-            if (context != null) {
-
-                tvContentValue = "This is the content for the date ";
-                Toast.makeText(getContext(),"Lalalala"+ TimeUtils.getFormattedDate(getActivity(), millis), Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-        }
-
-        tvContentValue = "";
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MainActivity activity= (MainActivity) getActivity();
+
+        tasksList= (ArrayList<HashMap<String, String>>) getArguments().getSerializable(KEY_ARRAY);
         View view = inflater.inflate(R.layout.fragment_content, container, false);
-        taskListView=(ListView)view.findViewById(R.id.todayTasks);
-        arrayListManipulator=new ArrayListManipulator(tasksList);
-        calendarOperations=new CalendarOperations();
+        final long mills =getArguments().getLong(KEY_DATE);
+        sortedDailyList=null;
 
-        adapter = new MyAdapter(getContext(),arrayListManipulator.findArrayByDate(TimeUtils.getFormattedDate(getActivity(), getArguments().getLong(KEY_DATE))));
+        if ( mills > 0) {
+            final Context context = getActivity();
+            if (context != null) {
+                taskListView=(ListView)view.findViewById(R.id.todayTasks);
+                arrayListManipulator = new ArrayListManipulator(tasksList);
+                calendarOperations=new CalendarOperations();
+                sortedDailyList=arrayListManipulator.findArrayByDate(TimeUtils.getFormattedDate(context, mills));
+                Collections.sort(sortedDailyList, new PriorityComparator());
+                adapter = new MyAdapter(getContext(), sortedDailyList);
+                Log.d("Smart", "onCreateView ");
+        taskListView.setAdapter(adapter);}
+        }
 
-        taskListView.setAdapter(adapter);
         return view;
     }
 

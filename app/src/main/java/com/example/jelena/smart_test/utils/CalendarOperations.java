@@ -36,7 +36,7 @@ public class CalendarOperations {
 
         return date;
     }
-    public String currentDate1(String format){
+  /*  public String currentDate1(String format){
         String formattedDate="";
 
         c= Calendar.getInstance();
@@ -44,7 +44,7 @@ public class CalendarOperations {
         formattedDate = dateFormat.format(c.getTime());
 
         return formattedDate;
-    }
+    }*/
 
     public String convertDateFormat(String date, String oldFormat, String newFormat){
         String formattedDate="";

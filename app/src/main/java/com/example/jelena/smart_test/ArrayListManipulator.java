@@ -3,6 +3,7 @@ package com.example.jelena.smart_test;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -29,4 +30,9 @@ public class ArrayListManipulator {
         }
         return dailyTasks;
     }
+    public void sortArrayByTag(ArrayList<HashMap<String, String>> tasks, String tag){
+
+
+    }
+
 }

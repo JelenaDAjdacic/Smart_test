@@ -2,7 +2,6 @@ package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -10,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
@@ -28,12 +26,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends FragmentActivity {
     private final static String url="https://demo8035300.mockable.io/tasks";
     ListView tasksListView;
     JSONObject[] jsonObjects;
-   // Calendar c;
+
+
     ProgressDialog pDialog;
 
     // JSON Node names
@@ -55,11 +55,7 @@ public class MainActivity extends FragmentActivity {
 
     ArrayListManipulator arrayListManipulator;
 
-   // String formattedDate=null;
 
-    MyAdapter adapter=null;
-
-    CalendarOperations calendarOperation;
     Context mContext;
     ViewPager vpPager;
 
@@ -71,38 +67,28 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         tasksList = new ArrayList<>();
         mContext = this;
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
 
-        if(isConnectingToInternet(getApplicationContext()))   {
 
-            // Calling async task to get json
-            new GetContacts().execute();}
+        if (savedInstanceState==null) {
 
-        else{
+                if (isConnectingToInternet(getApplicationContext())) {
 
-            Toast.makeText(getApplicationContext(), "no internet", Toast.LENGTH_LONG).show();
+                        new GetContacts().execute();
+
+                    } else {
+
+                    Toast.makeText(getApplicationContext(), "no internet", Toast.LENGTH_LONG).show();
+                }
+            vpPager.setCurrentItem(TimeUtils.getPositionForDay(Calendar.getInstance()));
 
         }
-
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
 
 
 
     }
-  /*  protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-
-
-
-
-        tasksListView= (ListView) findViewById(R.id.todayTasks);
-
-        calendarOperation=new CalendarOperations();
-
-
-    }*/
 
     public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
 
@@ -120,14 +106,14 @@ public class MainActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
-            //Toast.makeText(getApplicationContext(),"Lalalala"+tasksList.size(), Toast.LENGTH_SHORT).show();
-
+            Log.d("Smart",TimeUtils.getFormattedDate(mContext, TimeUtils.getDayForPosition(position).getTimeInMillis()));
             return FragmentContent.newInstance(timeForPosition,tasksList);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Calendar cal = TimeUtils.getDayForPosition(position);
+            Log.d("Smart"," getPageTitle(int position) "+position);
             return TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis());
         }
 
@@ -151,11 +137,13 @@ public class MainActivity extends FragmentActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             // Showing progress dialog
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
+            Log.d("Smart","onPreExecution");
 
         }
 
@@ -163,6 +151,8 @@ public class MainActivity extends FragmentActivity {
         protected Void doInBackground(Void... arg0) {
             // Creating service handler class instance
             client=new HttpClient(url);
+            Log.d("Smart","doInBackground..");
+
 
             // Making a request to url and getting response
             String jsonStr = client.getContent();
@@ -197,10 +187,12 @@ public class MainActivity extends FragmentActivity {
                         task.put(TAG_TARGET_DATE, targetDate);
                         task.put(TAG_DUE_DATE, dueDate);
                         task.put(TAG_DESCRIPTION, description);
-                        task.put(TAG_PRIORITY,priority);
+                        task.put(TAG_PRIORITY, priority);
 
                         // adding contact to contact list
                         tasksList.add(task);
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -212,27 +204,22 @@ public class MainActivity extends FragmentActivity {
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
             /**
              * Updating parsed JSON data into ListView
              */
-            arrayListManipulator=new ArrayListManipulator(tasksList);
-        //    adapter = new MyAdapter(getApplicationContext(),arrayListManipulator.findArrayByDate(calendarOperation.currentDate("yyyy-MM-dd")));
-        //    tasksListView.setAdapter(adapter);
-          //  Toast.makeText(getApplicationContext(),tasksList.get(0).get("title"), Toast.LENGTH_SHORT).show();
 
-            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
             vpPager.setAdapter(adapterViewPager);
-
-
-
-            // set pager to current date
             vpPager.setCurrentItem(TimeUtils.getPositionForDay(Calendar.getInstance()));
+
+
         }
 
     }
