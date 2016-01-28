@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CalendarOperations {
 
-    Calendar c=null;
+    static Calendar c=null;
 
     public CalendarOperations(){
         c= Calendar.getInstance();
@@ -29,28 +29,19 @@ public class CalendarOperations {
         return formattedDate;
     }
 
-    public Date currentDate(){
+    public static Date currentDate(){
         Date date=null;
 
         date=c.getTime();
 
         return date;
     }
-  /*  public String currentDate1(String format){
-        String formattedDate="";
 
-        c= Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-        formattedDate = dateFormat.format(c.getTime());
-
-        return formattedDate;
-    }*/
-
-    public String convertDateFormat(String date, String oldFormat, String newFormat){
+    public static String convertDateFormat(String date, String oldFormat, String newFormat){
         String formattedDate="";
         Date originalDate=null;
-        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat targetFormat = new SimpleDateFormat("MMM dd yyyy");
+        DateFormat originalFormat = new SimpleDateFormat(oldFormat);
+        DateFormat targetFormat = new SimpleDateFormat(newFormat);
         try {
             originalDate = originalFormat.parse(date);
         } catch (ParseException e) {
@@ -61,7 +52,7 @@ public class CalendarOperations {
         return formattedDate;
     }
 
-    public Date stringToDateConversion (String dateString, String format){
+    public static Date stringToDateConversion(String dateString, String format){
 
         Date date=null;
         DateFormat dateFormat=new SimpleDateFormat(format);
@@ -73,7 +64,7 @@ public class CalendarOperations {
 
         return date;
     }
-    public String daysBetweenDates(String dueDate, String format) {
+    public static String daysBetweenDates(String dueDate, String format) {
 
         String period="";
         long diffMillSec=0;

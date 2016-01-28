@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.example.jelena.smart_test.utils.*;
 
 /**
  * Created by mirna on 28.1.2016.
@@ -18,9 +19,10 @@ public class TaskDetails extends AppCompatActivity {
     int position;
     TextView titleDetail;
     TextView dueDateDetail;
-    TextView targetDateDetail;
     TextView priorityDetail;
     TextView descriptionDetail;
+    TextView daysLeftDetail;
+    CalendarOperations operations;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +30,20 @@ public class TaskDetails extends AppCompatActivity {
         Intent i=getIntent();
         tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra("SortedArray");
         position=i.getIntExtra("Clicked",0);
+        operations=new CalendarOperations();
 
         titleDetail= (TextView) findViewById(R.id.titleDetail);
         dueDateDetail= (TextView) findViewById(R.id.dueDateDetail);
-        targetDateDetail= (TextView) findViewById(R.id.targetDateDetail);
         priorityDetail= (TextView) findViewById(R.id.priorityDetail);
         descriptionDetail= (TextView) findViewById(R.id.descriptionDetail);
+        daysLeftDetail= (TextView) findViewById(R.id.daysLeftDetail);
 
 
-        titleDetail.setText(tasksList.get(position).get("title"));
-        dueDateDetail.setText(tasksList.get(position).get("DueDate"));
-        targetDateDetail.setText(tasksList.get(position).get("TargetDate"));
-        priorityDetail.setText(tasksList.get(position).get("PriorityDate"));
-        descriptionDetail.setText(tasksList.get(position).get("Description"));
+        titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
+        dueDateDetail.setText(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd","MMM dd"));
+        priorityDetail.setText(tasksList.get(position).get(AppParams.TAG_PRIORITY));
+        descriptionDetail.setText(tasksList.get(position).get(AppParams.TAG_DESCRIPTION));
+        daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE),"yyyy-MM-dd"));
 
 
 

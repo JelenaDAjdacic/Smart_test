@@ -80,7 +80,7 @@ class MyAdapter extends BaseAdapter {
 
         title.setText("Task title "+titleValue);
         countdown.setText("Left "+operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
-       priority.setText("Priority "+priorityValue);
+        priority.setText("Priority "+priorityValue);
 
         return row;
     }
