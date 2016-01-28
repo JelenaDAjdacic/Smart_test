@@ -3,6 +3,8 @@ package com.example.jelena.smart_test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by mirna on 28.1.2016.
  */
-public class TaskDetails extends Activity{
+public class TaskDetails extends AppCompatActivity {
     ArrayList<HashMap<String, String>> tasksList;
     int position;
     TextView titleDetail;
