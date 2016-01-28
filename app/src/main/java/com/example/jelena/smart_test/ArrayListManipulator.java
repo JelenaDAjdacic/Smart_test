@@ -30,9 +30,6 @@ public class ArrayListManipulator {
         }
         return dailyTasks;
     }
-    public void sortArrayByTag(ArrayList<HashMap<String, String>> tasks, String tag){
 
-
-    }
 
 }

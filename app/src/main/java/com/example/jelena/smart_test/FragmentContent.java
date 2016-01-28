@@ -4,13 +4,16 @@ package com.example.jelena.smart_test;
  * Created by Win 7 on 26.1.2016.
  */
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.jelena.smart_test.utils.CalendarOperations;
 import com.example.jelena.smart_test.utils.PriorityComparator;
@@ -65,11 +68,27 @@ public class FragmentContent extends Fragment {
                 Collections.sort(sortedDailyList, new PriorityComparator());
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 Log.d("Smart", "onCreateView ");
-        taskListView.setAdapter(adapter);}
+                taskListView.setAdapter(adapter);
+                taskListView.setItemsCanFocus(true);
+                taskListView.setClickable(true);
+                taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent intent=new Intent(getContext(),TaskDetails.class);
+                        intent.putExtra("SortedArray",sortedDailyList);
+                        intent.putExtra("Clicked",position);
+                        startActivity(intent);
+                        Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+           }
         }
 
         return view;
     }
+
 
 
 }

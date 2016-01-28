@@ -34,16 +34,18 @@ public class MainActivity extends FragmentActivity {
     JSONObject[] jsonObjects;
 
 
+
     ProgressDialog pDialog;
 
     // JSON Node names
-    static final String TAG_TASKS = "tasks ";
+    private static final String TAG_TASKS = "tasks ";
     private static final String TAG_ID = "id";
     private static final String TAG_TITLE = "title";
     private static final String TAG_TARGET_DATE = "TargetDate";
     private static final String TAG_DUE_DATE = "DueDate";
     private static final String TAG_DESCRIPTION = "Description";
     private static final String TAG_PRIORITY = "Priority";
+    private static final String KEY_TASK="KeyTask";
 
     // tasks JSONArray
     JSONArray tasks = null;
@@ -65,7 +67,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tasksList = new ArrayList<>();
+
         mContext = this;
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
@@ -74,7 +76,9 @@ public class MainActivity extends FragmentActivity {
 
         if (savedInstanceState==null) {
 
+
                 if (isConnectingToInternet(getApplicationContext())) {
+
 
                         new GetContacts().execute();
 
@@ -143,7 +147,7 @@ public class MainActivity extends FragmentActivity {
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
-            Log.d("Smart","onPreExecution");
+            Log.d("Smart", "onPreExecution");
 
         }
 
@@ -153,7 +157,7 @@ public class MainActivity extends FragmentActivity {
             client=new HttpClient(url);
             Log.d("Smart","doInBackground..");
 
-
+            tasksList = new ArrayList<>();
             // Making a request to url and getting response
             String jsonStr = client.getContent();
 

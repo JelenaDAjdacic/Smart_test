@@ -28,6 +28,7 @@ public class HttpClient {
         try {
 
             url = new URL(https_url);
+            TrustManagerManipulator.allowAllSSL();
             connection = (HttpsURLConnection) url.openConnection();
             inputStream=connection.getInputStream();
             int read=-1;
