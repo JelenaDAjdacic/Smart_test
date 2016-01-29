@@ -2,6 +2,7 @@ package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     ListView tasksListView;
     JSONObject[] jsonObjects;
 
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     ProgressDialog pDialog;
 
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
+        sharedPref = mContext.getSharedPreferences("AppSharedPreff", Context.MODE_PRIVATE);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             Calendar cal = TimeUtils.getDayForPosition(position);
-            return CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()),"yyyy-mm-dd","MMM dd");
+            return CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), "yyyy-mm-dd", "MMM dd");
         }
 
 
@@ -198,6 +202,13 @@ public class MainActivity extends AppCompatActivity {
 
                         // adding contact to contact list
                         tasksList.add(task);
+                        if (sharedPref.getString(id,"").isEmpty()){
+
+                            editor= sharedPref.edit();
+                            editor.putString(id, "Unresolved");
+                            editor.commit();
+
+                        }
 
 
                     }

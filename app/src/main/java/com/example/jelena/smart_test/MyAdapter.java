@@ -1,6 +1,7 @@
 package com.example.jelena.smart_test;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +25,12 @@ class MyAdapter extends BaseAdapter {
     TextView countdown;
     TextView priority;
 
-    String dueDateValue;
-    String titleValue;
-    String timeLeft;
-    String priorityValue;
+    String dueDateValue="";
+    String titleValue="";
+    String priorityValue="";
+
 
     CalendarOperations operations;
-
 
 
     public MyAdapter(Context context,ArrayList<HashMap<String, String>> dailyTasks){
@@ -38,6 +38,7 @@ class MyAdapter extends BaseAdapter {
         this.context=context;
         this.dailyTasks=dailyTasks;
         operations=new CalendarOperations();
+
 
     }
     @Override
@@ -67,6 +68,8 @@ class MyAdapter extends BaseAdapter {
             row = convertView;
         }
 
+
+
         title= (TextView) row.findViewById(R.id.title);
         dueDay= (TextView) row.findViewById(R.id.dueDate);
         countdown= (TextView) row.findViewById(R.id.countdown);
@@ -76,8 +79,8 @@ class MyAdapter extends BaseAdapter {
         titleValue=dailyTasks.get(position).get("title");
         priorityValue=dailyTasks.get(position).get("Priority");
 
-        dueDay.setText("Due date "+operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
 
+        dueDay.setText("Due date "+operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
         title.setText("Task title "+titleValue);
         countdown.setText("Left "+operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
         priority.setText("Priority "+priorityValue);
