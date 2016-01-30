@@ -1,6 +1,9 @@
 package com.example.jelena.smart_test;
 
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +32,6 @@ public class TaskDetails extends AppCompatActivity {
     TextView priorityDetail;
     TextView descriptionDetail;
     TextView daysLeftDetail;
-    CalendarOperations operations;
     SharedPreferences sharedPreferences;
     TextView statusDetail;
     Button resolveButton;
@@ -45,7 +47,7 @@ public class TaskDetails extends AppCompatActivity {
         Intent i=getIntent();
         tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra("SortedArray");
         position=i.getIntExtra("Clicked", 0);
-        sharedPreferences = getApplicationContext().getSharedPreferences("AppSharedPreff", Context.MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         id=tasksList.get(position).get(AppParams.TAG_ID);
 
         titleDetail= (TextView) findViewById(R.id.titleDetail);
@@ -60,19 +62,20 @@ public class TaskDetails extends AppCompatActivity {
         titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
         image= (ImageView) findViewById(R.id.imageView);
 
-        dueDateDetail.setText(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd", "MMM dd"));
+        dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd", "MMM dd")));
         priorityDetail.setText(tasksList.get(position).get(AppParams.TAG_PRIORITY));
         descriptionDetail.setText(tasksList.get(position).get(AppParams.TAG_DESCRIPTION));
         daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd"));
 
 
-        if (sharedPreferences.getString(id,"Lallal").equals("Resolved")){
+        if (sharedPreferences.getString(id,"").equals("Resolved")){
             image.setImageResource(R.drawable.resolved_sign);
             statusDetail.setText("Resolved");
         }
         if (sharedPreferences.getString(id,"Lallal").equals("Can't resolve")){
             image.setImageResource(R.drawable.unresolved_sign);
             statusDetail.setText("Unresolved");
+
 
         }
 
@@ -87,8 +90,8 @@ public class TaskDetails extends AppCompatActivity {
                     editor = sharedPreferences.edit();
                     editor.putString(id, "Resolved");
                     editor.commit();
-                    finish();
-                    startActivity(getIntent());
+                    showDialog();
+
 
 
                 }
@@ -99,17 +102,46 @@ public class TaskDetails extends AppCompatActivity {
                     editor = sharedPreferences.edit();
                     editor.putString(id, "Can't resolve");
                     editor.commit();
-                    finish();
-                    startActivity(getIntent());
+                    showDialog();
 
 
                 }
             });
         }
 
+    }
+    public void showDialog(){
+        CommentDialog dialog=new CommentDialog();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(),"CommentDialog");
+
+    }
+    public void showCommentEntry(){
+        Comment dialog=new Comment();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(),"CommentEntry");
+    }
 
 
+    public void onNoClicked() {
+        finish();
+        startActivity(getIntent());
 
+    }
+
+
+    public void onYesClicked() {
+      /*  Fragment prev = getFragmentManager().findFragmentByTag("CommentDialog");
+        if (prev != null) {
+            DialogFragment df = (DialogFragment) prev;
+            df.dismiss();
+        }*/
+        showCommentEntry();
+
+    }
+
+
+    public void onCancelClicked() {
 
     }
 }

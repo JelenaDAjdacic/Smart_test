@@ -16,4 +16,7 @@ public class AppParams {
     public static final String TAG_DUE_DATE = "DueDate";
     public static final String TAG_DESCRIPTION = "Description";
     public static final String TAG_PRIORITY = "Priority";
+
+    //Shared Preferences Keys
+    public static final String KEY_STATUS="AppStatusSharedPref";
 }

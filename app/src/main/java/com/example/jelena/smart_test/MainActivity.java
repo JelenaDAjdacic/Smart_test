@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView tasksListView;
+
     JSONObject[] jsonObjects;
 
     SharedPreferences sharedPref;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     Context mContext;
     ViewPager vpPager;
+    PagerTabStrip pTab;
 
     private CachingFragmentStatePagerAdapter adapterViewPager;
 
@@ -62,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
-        sharedPref = mContext.getSharedPreferences("AppSharedPreff", Context.MODE_PRIVATE);
+        sharedPref = mContext.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
+        pTab= (PagerTabStrip) findViewById(R.id.pager_header);
+        pTab.setDrawFullUnderline(false);
+        pTab.setTabIndicatorColor(0xFFDE61);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -127,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             Calendar cal = TimeUtils.getDayForPosition(position);
-            return CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), "yyyy-mm-dd", "MMM dd");
+            return StringUtils.capitalize(CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), "yyyy-MM-dd", "MMM dd"));
+
         }
 
 

@@ -20,6 +20,7 @@ import com.example.jelena.smart_test.utils.TimeUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import com.example.jelena.smart_test.utils.*;
 
 
 
@@ -62,7 +63,7 @@ public class FragmentContent extends Fragment {
                 taskListView=(ListView)view.findViewById(R.id.todayTasks);
                 arrayListManipulator = new ArrayListManipulator(tasksList);
                 calendarOperations=new CalendarOperations();
-                sortedDailyList=arrayListManipulator.findArrayByDate(TimeUtils.getFormattedDate(context, mills));
+                sortedDailyList=new ArrayListManipulator(tasksList).findArrayByDate(TimeUtils.getFormattedDate(context, mills));
                 Collections.sort(sortedDailyList, new PriorityComparator());
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 taskListView.setAdapter(adapter);
