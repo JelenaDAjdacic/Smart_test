@@ -2,6 +2,7 @@ package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent i=getIntent();
+        lastPagerPosition=i.getIntExtra("lastPager",0);
+
         mContext = this;
         sharedPref = mContext.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                lastPagerPosition=position;
+                lastPagerPosition = position;
 
             }
 
@@ -89,9 +93,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (isConnectingToInternet(getApplicationContext())) {
-                if (savedInstanceState==null) {
+                if (savedInstanceState==null||lastPagerPosition!=0) {
 
+                    if (lastPagerPosition==0){
                         lastPagerPosition=TimeUtils.getPositionForDay(Calendar.getInstance());
+
+                    }
+
+
 
                     } else {
                     lastPagerPosition=savedInstanceState.getInt("position");
@@ -246,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 
 }

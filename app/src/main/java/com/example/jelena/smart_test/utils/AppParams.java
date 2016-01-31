@@ -19,4 +19,5 @@ public class AppParams {
 
     //Shared Preferences Keys
     public static final String KEY_STATUS="AppStatusSharedPref";
+    public static final String KEY_COMMENTS="AppCommentsSharedPref";
 }

@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CalendarOperations;
 
 import java.util.ArrayList;
@@ -29,6 +31,10 @@ class MyAdapter extends BaseAdapter {
     String titleValue="";
     String priorityValue="";
 
+    String idValue="";
+    SharedPreferences sharedPreferences;
+    LinearLayout container;
+
 
     CalendarOperations operations;
 
@@ -38,6 +44,7 @@ class MyAdapter extends BaseAdapter {
         this.context=context;
         this.dailyTasks=dailyTasks;
         operations=new CalendarOperations();
+        sharedPreferences = context.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
 
 
     }
@@ -70,20 +77,35 @@ class MyAdapter extends BaseAdapter {
 
 
 
+        container= (LinearLayout) row.findViewById(R.id.customRow);
         title= (TextView) row.findViewById(R.id.title);
         dueDay= (TextView) row.findViewById(R.id.dueDate);
         countdown= (TextView) row.findViewById(R.id.countdown);
         priority= (TextView) row.findViewById(R.id.priority);
 
-        dueDateValue=dailyTasks.get(position).get("DueDate");
-        titleValue=dailyTasks.get(position).get("title");
-        priorityValue=dailyTasks.get(position).get("Priority");
+        dueDateValue=dailyTasks.get(position).get(AppParams.TAG_DUE_DATE);
+        titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
+        priorityValue=dailyTasks.get(position).get(AppParams.TAG_PRIORITY);
+        idValue=dailyTasks.get(position).get(AppParams.TAG_ID);
+
+        dueDay.setText(operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
+        title.setText(titleValue);
+        countdown.setText(operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
+        priority.setText(priorityValue);
 
 
-        dueDay.setText("Due date "+operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
-        title.setText("Task title "+titleValue);
-        countdown.setText("Left "+operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
-        priority.setText("Priority "+priorityValue);
+        if(sharedPreferences.getString(idValue,"").equals("Resolved")){
+            row.setBackgroundResource(R.drawable.row_resolved);
+        }
+        else  if (sharedPreferences.getString(idValue,"").equals("Can't resolve")){
+
+            row.setBackgroundResource(R.drawable.row_unresolved);
+        }
+        else {
+            row.setBackgroundResource(R.drawable.row);
+            priority.setVisibility(View.VISIBLE);
+
+        }
 
         return row;
     }

@@ -61,10 +61,10 @@ public class FragmentContent extends Fragment {
             final Context context = getActivity();
             if (context != null) {
                 taskListView=(ListView)view.findViewById(R.id.todayTasks);
-                arrayListManipulator = new ArrayListManipulator(tasksList);
+                arrayListManipulator = new ArrayListManipulator(tasksList,getContext());
                 calendarOperations=new CalendarOperations();
-                sortedDailyList=new ArrayListManipulator(tasksList).findArrayByDate(TimeUtils.getFormattedDate(context, mills));
-                Collections.sort(sortedDailyList, new PriorityComparator());
+                sortedDailyList=new ArrayListManipulator(tasksList,getContext()).sortTasksForDate(TimeUtils.getFormattedDate(context, mills));
+            //    Collections.sort(sortedDailyList, new PriorityComparator());
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 taskListView.setAdapter(adapter);
                 taskListView.setItemsCanFocus(true);
@@ -72,10 +72,12 @@ public class FragmentContent extends Fragment {
                 taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        MainActivity mainActivity= (MainActivity) getActivity();
 
                         Intent intent=new Intent(getContext(),TaskDetails.class);
                         intent.putExtra("SortedArray",sortedDailyList);
                         intent.putExtra("Clicked",position);
+                        intent.putExtra("calPos",mainActivity.lastPagerPosition);
                         startActivity(intent);
                     }
                 });
@@ -85,6 +87,7 @@ public class FragmentContent extends Fragment {
 
         return view;
     }
+
 
 
 

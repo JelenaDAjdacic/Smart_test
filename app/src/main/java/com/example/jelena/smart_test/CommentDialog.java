@@ -30,7 +30,7 @@ public class CommentDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 TaskDetails taskDetails= (TaskDetails) getActivity();
-                taskDetails.onYesClicked();
+                taskDetails.showCommentEntry();
 
             }
         });
@@ -42,10 +42,10 @@ public class CommentDialog extends DialogFragment {
                     DialogFragment df = (DialogFragment) prev;
                     df.dismiss();
                 }
-
-
             }
         });
+
+
         return view;
     }
 
