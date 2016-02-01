@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                         if (sharedPref.getString(id,"").isEmpty()){
 
                             editor= sharedPref.edit();
-                            editor.putString(id, "Unresolved");
+                            editor.putString(id, AppParams.UNRESOLVED);
                             editor.commit();
 
                         }

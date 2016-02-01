@@ -19,7 +19,7 @@ public class CalendarOperations {
     public CalendarOperations(){
         c= Calendar.getInstance();
     }
-    public String currentDate(String format){
+    public static String currentDate(String format){
         String formattedDate="";
 
         c= Calendar.getInstance();

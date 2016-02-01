@@ -3,4 +3,5 @@
     <string name="task_title">Tasks</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="time_format">HH:mm:ss</string>
+    <string name="full_time_format">yyyy-MM-dd HH:mm:ss</string>
 </resources>

@@ -75,27 +75,30 @@ public class TaskDetails extends AppCompatActivity {
         daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd"));
 
 
-        if (sharedPreferences.getString(id,"").equals("Resolved")){
+        if (sharedPreferences.getString(id,"").equals(AppParams.RESOLVED)){
             image.setImageResource(R.drawable.resolved_sign);
             statusDetail.setText("Resolved");
         }
-        if (sharedPreferences.getString(id,"Lallal").equals("Can't resolve")){
+        if (sharedPreferences.getString(id,"Lallal").equals(AppParams.CANT_RESOLVE)){
             image.setImageResource(R.drawable.unresolved_sign);
             statusDetail.setText("Unresolved");
 
 
         }
 
-        if (sharedPreferences.getString(id,"Lallal").equals("Unresolved")){
+        if (sharedPreferences.getString(id,"Lallal").equals(AppParams.UNRESOLVED)){
             statusDetail.setText("Unresolved");
 
+            if (CalendarOperations.currentDate("yyyy-MM-dd").compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
+
                 buttonContainer.setVisibility(View.VISIBLE);
+
             resolveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     editor = sharedPreferences.edit();
-                    editor.putString(id, "Resolved");
+                    editor.putString(id, AppParams.RESOLVED);
                     editor.commit();
                     showDialog();
 
@@ -106,27 +109,19 @@ public class TaskDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     editor = sharedPreferences.edit();
-                    editor.putString(id, "Can't resolve");
-                    editor.commit();
+                    editor.putString(id, AppParams.CANT_RESOLVE);
+                            editor.commit();
                     showDialog();
 
 
                 }
             });
         }
-
-
-
-            Toast.makeText(this,sharedPreferencesComments.getString(id,""),Toast.LENGTH_SHORT).show();
-
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("NJNJ", "" + position);
         Intent i=new Intent(this,MainActivity.class);
         i.putExtra("lastPager",lastpagerpos);
 

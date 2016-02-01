@@ -94,10 +94,10 @@ class MyAdapter extends BaseAdapter {
         priority.setText(priorityValue);
 
 
-        if(sharedPreferences.getString(idValue,"").equals("Resolved")){
+        if(sharedPreferences.getString(idValue,"").equals(AppParams.RESOLVED)){
             row.setBackgroundResource(R.drawable.row_resolved);
         }
-        else  if (sharedPreferences.getString(idValue,"").equals("Can't resolve")){
+        else  if (sharedPreferences.getString(idValue,"").equals(AppParams.CANT_RESOLVE)){
 
             row.setBackgroundResource(R.drawable.row_unresolved);
         }
