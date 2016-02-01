@@ -10,13 +10,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,27 +65,67 @@ public class TaskDetails extends AppCompatActivity {
         resolveButton= (Button) findViewById(R.id.resolve);
         cantresovleButton= (Button) findViewById(R.id.can_not_resolve);
         buttonContainer= (LinearLayout) findViewById(R.id.buttonContainer);
-        titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
         image= (ImageView) findViewById(R.id.imageView);
 
-        dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd", "MMM dd")));
+        updateTask();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateTask();
+    }
+
+ /*   @Override
+    protected void onPause() {
+        super.onPause();
+        Intent i=new Intent(this,MainActivity.class);
+        i.putExtra("lastPager",lastpagerpos);
+
+        startActivity(i);
+        }
+*/
+    public void showDialog(){
+        CommentDialog dialog=new CommentDialog();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(), "CommentDialog");
+
+    }
+    public void showCommentEntry(){
+        Comment dialog=new Comment();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(),"CommentEntry");
+    }
+
+
+    public void onNoClicked() {
+        updateTask();
+
+    }
+    public  void updateTask(){
+
+        titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
+        dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
         priorityDetail.setText(tasksList.get(position).get(AppParams.TAG_PRIORITY));
         descriptionDetail.setText(tasksList.get(position).get(AppParams.TAG_DESCRIPTION));
-        daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), "yyyy-MM-dd"));
+        daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format)));
 
 
         if (sharedPreferences.getString(id,"").equals(AppParams.RESOLVED)){
             image.setImageResource(R.drawable.resolved_sign);
             statusDetail.setText("Resolved");
+            buttonContainer.setVisibility(View.GONE);
+
         }
-        if (sharedPreferences.getString(id,"Lallal").equals(AppParams.CANT_RESOLVE)){
+        if (sharedPreferences.getString(id,"").equals(AppParams.CANT_RESOLVE)){
             image.setImageResource(R.drawable.unresolved_sign);
             statusDetail.setText("Unresolved");
-
+            buttonContainer.setVisibility(View.GONE);
 
         }
 
-        if (sharedPreferences.getString(id,"Lallal").equals(AppParams.UNRESOLVED)){
+        if (sharedPreferences.getString(id,"").equals(AppParams.UNRESOLVED)){
             statusDetail.setText("Unresolved");
 
             if (CalendarOperations.currentDate("yyyy-MM-dd").compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
@@ -110,40 +149,13 @@ public class TaskDetails extends AppCompatActivity {
                 public void onClick(View v) {
                     editor = sharedPreferences.edit();
                     editor.putString(id, AppParams.CANT_RESOLVE);
-                            editor.commit();
+                    editor.commit();
                     showDialog();
 
 
                 }
             });
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Intent i=new Intent(this,MainActivity.class);
-        i.putExtra("lastPager",lastpagerpos);
-
-        startActivity(i);
-        }
-
-    public void showDialog(){
-        CommentDialog dialog=new CommentDialog();
-        dialog.setCancelable(false);
-        dialog.show(getFragmentManager(),"CommentDialog");
-
-    }
-    public void showCommentEntry(){
-        Comment dialog=new Comment();
-        dialog.setCancelable(false);
-        dialog.show(getFragmentManager(),"CommentEntry");
-    }
-
-
-    public void onNoClicked() {
-        finish();
-        startActivity(getIntent());
 
     }
     

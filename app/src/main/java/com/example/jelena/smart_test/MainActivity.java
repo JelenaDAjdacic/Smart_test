@@ -33,7 +33,6 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-
     JSONObject[] jsonObjects;
 
     SharedPreferences sharedPref;
@@ -100,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-
-
                     } else {
                     lastPagerPosition=savedInstanceState.getInt("position");
 
@@ -111,6 +108,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        vpPager.setAdapter(adapterViewPager);
+        vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
+        Log.d("RESUME","onResume()");
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);

@@ -75,8 +75,6 @@ class MyAdapter extends BaseAdapter {
             row = convertView;
         }
 
-
-
         container= (LinearLayout) row.findViewById(R.id.customRow);
         title= (TextView) row.findViewById(R.id.title);
         dueDay= (TextView) row.findViewById(R.id.dueDate);

@@ -49,7 +49,7 @@ public class CommentDialog extends DialogFragment {
         return view;
     }
 
-    @Override
+   @Override
     public void onDetach() {
         super.onDetach();
         TaskDetails taskDetails= (TaskDetails) getActivity();
