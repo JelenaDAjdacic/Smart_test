@@ -1,8 +1,40 @@
 <resources>
+    <!-- layout strings -->
     <string name="app_name">Smart_test</string>
     <string name="task_title">Tasks</string>
+
+    <!-- saveInstance Bundle key -->
+
+    <string name="last_calendar_position">LAST_CALENDAR_POSITION</string>
+
+    <!-- comment_dialog strings -->
+
+    <string name="hint">Type your comment</string>
+    <string name="dialogQuestion">Do you want to leave the comment?</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="comment">Comment</string>
+
+    <!-- time formats -->
     <string name="date_format">yyyy-MM-dd</string>
     <string name="short_date_format">MMM dd</string>
     <string name="time_format">HH:mm:ss</string>
     <string name="full_time_format">yyyy-MM-dd HH:mm:ss</string>
+
+    <!-- diagram tags -->
+
+    <string name="dialog">COMMENT_DIAGRAM</string>
+
+    <!-- status strings -->
+
+    <string name="resolved">Resolved</string>
+    <string name="unresolved">Unresolved</string>
+
+    <!-- keys for data send via Intent from FragmentContent.class to TaskDetails.class -->
+
+    <string name="sorted_array">SORTED_ARRAY</string>
+    <string name="clicked_item_position">CLICKED_ITEM_POSITION</string>
+    <string name="calendar_position">CALENDAR_POSITION</string>
 </resources>

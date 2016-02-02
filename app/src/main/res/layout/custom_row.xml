@@ -22,21 +22,30 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <com.example.jelena.smart_test.utils.CustomTextView
+
                 android:id="@+id/title"
-                android:layout_columnSpan="14"
+                android:layout_columnSpan="13"
                 android:layout_gravity="fill"
                 android:layout_marginTop="10dp"
-
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 />
-            <TextView
+            <com.example.jelena.smart_test.utils.CustomTextView
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/priority"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:background="@drawable/oval_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+
                 />
             <View
                 android:layout_marginTop="7dp"
@@ -45,15 +54,15 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
-            <TextView
+            <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due date"
                 android:id="@+id/labelDueDate"
                 android:layout_columnSpan="8"
                 android:layout_gravity="left"
-                android:layout_marginBottom="7dp"/>
-            <TextView
+                android:layout_marginBottom="7dp" />
+            <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Days left"
@@ -61,19 +70,20 @@
                 android:layout_columnSpan="8"
                 android:layout_gravity="right"
                 android:layout_marginBottom="7dp"/>
-            <TextView
+            <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dueDate"
                 android:layout_columnSpan="8"
-                android:layout_gravity="left"/>
-            <TextView
+                android:layout_gravity="left"
+                android:textStyle="bold"/>
+            <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/countdown"
                 android:layout_columnSpan="8"
-                android:layout_gravity="right"/>
-
+                android:layout_gravity="right"
+                android:textStyle="bold"/>
 
 
         </GridLayout>

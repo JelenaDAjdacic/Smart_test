@@ -1,33 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    >
+    <LinearLayout
+        android:layout_margin="@dimen/dialog_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/questionContainer"
+        android:minHeight="0dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/dialogQuestion"
+            android:id="@+id/textView"
+           />
+        <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/wrapperQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Do you want to leave the comment?"
-        android:id="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            android:layout_margin="@dimen/dialog_margin"
+         >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No"
-        android:id="@+id/no"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no"
+            android:id="@+id/no"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@color/red"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yes"
-        android:id="@+id/yes"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/yes"
+            android:id="@+id/yes"
+            android:textColor="@color/white"
+            android:background="@color/green"
+            android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="@dimen/dialog_margin"
+        android:orientation="vertical"
+        android:id="@+id/commentContainer"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@+id/questionContainer"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="15dp"
+            android:inputType="text"
+            android:hint="@string/hint"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/comment" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dialog_margin"
+            >
+            <Button
+                android:id="@+id/cancel"
+                android:text="@string/cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="@color/red"
+              />
+
+            <Button
+                android:id="@+id/submit"
+                android:text="@string/submit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="#F6EFDE"
+
+
+                 />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

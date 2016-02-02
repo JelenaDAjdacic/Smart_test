@@ -2,21 +2,21 @@ package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
+
 
 
 import com.example.jelena.smart_test.utils.*;
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     ViewPager vpPager;
     PagerTabStrip pTab;
 
+
     private CachingFragmentStatePagerAdapter adapterViewPager;
 
     @Override
@@ -63,15 +64,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent i=getIntent();
-        lastPagerPosition=i.getIntExtra("lastPager",0);
 
         mContext = this;
         sharedPref = mContext.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
+
+
         pTab= (PagerTabStrip) findViewById(R.id.pager_header);
         pTab.setDrawFullUnderline(false);
-        pTab.setTabIndicatorColor(0xFFDE61);
+        pTab.setTabIndicatorColor(ContextCompat.getColor(mContext,R.color.backgroundColor));
+
+
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -92,15 +95,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (isConnectingToInternet(getApplicationContext())) {
-                if (savedInstanceState==null||lastPagerPosition!=0) {
+                if (savedInstanceState==null) {
 
-                    if (lastPagerPosition==0){
                         lastPagerPosition=TimeUtils.getPositionForDay(Calendar.getInstance());
 
-                    }
 
                     } else {
-                    lastPagerPosition=savedInstanceState.getInt("position");
+                    lastPagerPosition=savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
 
                 }
             new GetContacts().execute();
@@ -114,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         vpPager.setAdapter(adapterViewPager);
         vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
-        Log.d("RESUME","onResume()");
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putInt("position", lastPagerPosition);
+        outState.putInt(getResources().getString(R.string.last_calendar_position), lastPagerPosition);
     }
 
     public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            Calendar cal = TimeUtils.getDayForPosition(position);
+            cal = TimeUtils.getDayForPosition(position);
             return StringUtils.capitalize(CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), "yyyy-MM-dd", "MMM dd"));
 
         }
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                         // tmp hashmap for single contact
-                        HashMap<String, String> task = new HashMap<String, String>();
+                        HashMap<String, String> task = new HashMap<>();
 
                         // adding each child node to HashMap key => value
                         task.put(AppParams.TAG_ID, id);

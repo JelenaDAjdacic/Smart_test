@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -22,9 +23,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import com.example.jelena.smart_test.utils.*;
 
-/**
- * Created by mirna on 28.1.2016.
- */
+
 public class TaskDetails extends AppCompatActivity {
     ArrayList<HashMap<String, String>> tasksList;
     int position;
@@ -48,14 +47,17 @@ public class TaskDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_details);
 
+        //get data for selected day
         Intent i=getIntent();
-        tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra("SortedArray");
-        position=i.getIntExtra("Clicked", 0);
-        lastpagerpos=i.getIntExtra("calPos",0);
+        tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getResources().getString(R.string.sorted_array));
+        position=i.getIntExtra(getResources().getString(R.string.clicked_item_position), 0);
+        lastpagerpos=i.getIntExtra(getResources().getString(R.string.calendar_position),0);
+
+
         sharedPreferences = getApplicationContext().getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         sharedPreferencesComments = getApplicationContext().getSharedPreferences(AppParams.KEY_COMMENTS, Context.MODE_PRIVATE);
-        id=tasksList.get(position).get(AppParams.TAG_ID);
 
+        id=tasksList.get(position).get(AppParams.TAG_ID);
         titleDetail= (TextView) findViewById(R.id.titleDetail);
         dueDateDetail= (TextView) findViewById(R.id.dueDateDetail);
         priorityDetail= (TextView) findViewById(R.id.priorityDetail);
@@ -71,39 +73,22 @@ public class TaskDetails extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateTask();
-    }
 
- /*   @Override
-    protected void onPause() {
-        super.onPause();
-        Intent i=new Intent(this,MainActivity.class);
-        i.putExtra("lastPager",lastpagerpos);
-
-        startActivity(i);
-        }
-*/
     public void showDialog(){
         CommentDialog dialog=new CommentDialog();
         dialog.setCancelable(false);
-        dialog.show(getFragmentManager(), "CommentDialog");
+        dialog.show(getFragmentManager(), getResources().getString(R.string.dialog));
 
     }
-    public void showCommentEntry(){
-        Comment dialog=new Comment();
-        dialog.setCancelable(false);
-        dialog.show(getFragmentManager(),"CommentEntry");
-    }
-
 
     public void onNoClicked() {
+
         updateTask();
 
     }
     public  void updateTask(){
+
+        Toast.makeText(getApplicationContext(),sharedPreferencesComments.getString(id,""),Toast.LENGTH_SHORT).show();
 
         titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
         dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
@@ -114,21 +99,21 @@ public class TaskDetails extends AppCompatActivity {
 
         if (sharedPreferences.getString(id,"").equals(AppParams.RESOLVED)){
             image.setImageResource(R.drawable.resolved_sign);
-            statusDetail.setText("Resolved");
+            statusDetail.setText(getResources().getString(R.string.resolved));
             buttonContainer.setVisibility(View.GONE);
 
         }
         if (sharedPreferences.getString(id,"").equals(AppParams.CANT_RESOLVE)){
             image.setImageResource(R.drawable.unresolved_sign);
-            statusDetail.setText("Unresolved");
+            statusDetail.setText(getResources().getString(R.string.unresolved));
             buttonContainer.setVisibility(View.GONE);
 
         }
 
         if (sharedPreferences.getString(id,"").equals(AppParams.UNRESOLVED)){
-            statusDetail.setText("Unresolved");
+            statusDetail.setText(getResources().getString(R.string.unresolved));
 
-            if (CalendarOperations.currentDate("yyyy-MM-dd").compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
+            if (CalendarOperations.currentDate(getResources().getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
 
                 buttonContainer.setVisibility(View.VISIBLE);
 

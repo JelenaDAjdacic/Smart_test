@@ -1,8 +1,5 @@
 package com.example.jelena.smart_test;
 
-/**
- * Created by Win 7 on 26.1.2016.
- */
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,7 +61,6 @@ public class FragmentContent extends Fragment {
                 arrayListManipulator = new ArrayListManipulator(tasksList,getContext());
                 calendarOperations=new CalendarOperations();
                 sortedDailyList=new ArrayListManipulator(tasksList,getContext()).sortTasksForDate(TimeUtils.getFormattedDate(context, mills));
-            //    Collections.sort(sortedDailyList, new PriorityComparator());
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 taskListView.setAdapter(adapter);
                 taskListView.setItemsCanFocus(true);
@@ -75,9 +71,9 @@ public class FragmentContent extends Fragment {
                         MainActivity mainActivity= (MainActivity) getActivity();
 
                         Intent intent=new Intent(getContext(),TaskDetails.class);
-                        intent.putExtra("SortedArray",sortedDailyList);
-                        intent.putExtra("Clicked",position);
-                        intent.putExtra("calPos",mainActivity.lastPagerPosition);
+                        intent.putExtra(getResources().getString(R.string.sorted_array),sortedDailyList);
+                        intent.putExtra(getResources().getString(R.string.clicked_item_position),position);
+                        intent.putExtra(getResources().getString(R.string.calendar_position),mainActivity.lastPagerPosition);
                         startActivity(intent);
                     }
                 });

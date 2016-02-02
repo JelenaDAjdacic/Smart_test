@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Win 7 on 26.1.2016.
- */
+
 class MyAdapter extends BaseAdapter {
 
     ArrayList<HashMap<String, String>> dailyTasks;
@@ -36,14 +35,10 @@ class MyAdapter extends BaseAdapter {
     LinearLayout container;
 
 
-    CalendarOperations operations;
-
-
     public MyAdapter(Context context,ArrayList<HashMap<String, String>> dailyTasks){
 
         this.context=context;
         this.dailyTasks=dailyTasks;
-        operations=new CalendarOperations();
         sharedPreferences = context.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
 
 
@@ -86,9 +81,9 @@ class MyAdapter extends BaseAdapter {
         priorityValue=dailyTasks.get(position).get(AppParams.TAG_PRIORITY);
         idValue=dailyTasks.get(position).get(AppParams.TAG_ID);
 
-        dueDay.setText(operations.convertDateFormat(dueDateValue,"yyyy-MM-dd","MMM dd yyyy"));
+        dueDay.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(dueDateValue,context.getResources().getString(R.string.date_format),context.getResources().getString(R.string.short_date_format))));
         title.setText(titleValue);
-        countdown.setText(operations.daysBetweenDates(dueDateValue,"yyyy-MM-dd"));
+        countdown.setText(CalendarOperations.daysBetweenDates(dueDateValue, context.getResources().getString(R.string.date_format)));
         priority.setText(priorityValue);
 
 

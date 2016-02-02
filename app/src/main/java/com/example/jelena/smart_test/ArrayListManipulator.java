@@ -13,9 +13,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Created by Win 7 on 25.1.2016.
- */
+
 public class ArrayListManipulator {
     ArrayList<HashMap<String, String>> allTasks=null;
     Context context;
@@ -28,18 +26,14 @@ public class ArrayListManipulator {
     public ArrayListManipulator(ArrayList<HashMap<String, String>> allTasks,Context context){
         this.allTasks=allTasks;
         this.context=context;
-        currentDate=CalendarOperations.currentDate("yyyy-MM-dd");
+        currentDate=CalendarOperations.currentDate(context.getResources().getString(R.string.date_format));
         sharedPreferences=context.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
 
     }
 
     public ArrayList<HashMap<String, String>> findArrayByDate(String date){
 
-        ArrayList<HashMap<String, String>> dailyTasks=new  ArrayList<HashMap<String, String>>();
-
-
-
-       // if (currentDate.compareTo(date)==0) Log.d("NJNJ",date+" ==");
+        ArrayList<HashMap<String, String>> dailyTasks=new  ArrayList<>();
 
         for (int i=0;i<allTasks.size();i++){
 
@@ -48,7 +42,10 @@ public class ArrayListManipulator {
 
             if (currentDate.compareTo(date)>0) {
 
+
+
                 if (allTasks.get(i).get(AppParams.TAG_DUE_DATE).contains(date)&&(status.equals(AppParams.UNRESOLVED))){
+
                     dailyTasks.add(allTasks.get(i));
                 }
                 else if (allTasks.get(i).get(AppParams.TAG_TARGET_DATE).contains(date)&&(!status.equals(AppParams.UNRESOLVED))){
@@ -63,10 +60,8 @@ public class ArrayListManipulator {
                 }
                 if (currentDate.compareTo(date)==0){
 
-                 if ((date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_DUE_DATE),context.getResources().getString(R.string.full_time_format),context.getResources().getString(R.string.date_format)))<=0)&&(status.equals(AppParams.UNRESOLVED))&&(date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_TARGET_DATE),context.getResources().getString(R.string.full_time_format),context.getResources().getString(R.string.date_format)))>=0)){
-                     Log.d("NJNJ","NJNJN"+ date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_DUE_DATE),context.getResources().getString(R.string.full_time_format),context.getResources().getString(R.string.date_format))));
+                 if ((date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_DUE_DATE),context.getResources().getString(R.string.full_time_format),context.getResources().getString(R.string.date_format)))<=0)&&(status.equals(AppParams.UNRESOLVED))&&(date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_TARGET_DATE),context.getResources().getString(R.string.full_time_format),context.getResources().getString(R.string.date_format)))>0)){
 
-                     Log.d("NJNJ", "NJNJN" + CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_DUE_DATE), context.getResources().getString(R.string.full_time_format), context.getResources().getString(R.string.date_format)));
                     dailyTasks.add(allTasks.get(i));}
                 }
 
@@ -78,7 +73,7 @@ public class ArrayListManipulator {
     }
     public ArrayList<HashMap<String, String>> filterArrayByStatus(String status,ArrayList<HashMap<String, String>> dailyTasks){
 
-        ArrayList<HashMap<String, String>> statusTasks=new  ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> statusTasks=new  ArrayList<>();
         for (int i=0;i<dailyTasks.size();i++){
             if (sharedPreferences.getString(dailyTasks.get(i).get(AppParams.TAG_ID),"").equals(status)) {
                 statusTasks.add(dailyTasks.get(i));
@@ -88,16 +83,16 @@ public class ArrayListManipulator {
     }
     public ArrayList<HashMap<String, String>> sortTasksForDate(String date){
 
-        ArrayList<HashMap<String, String>> dailyTasks=new ArrayList<HashMap<String, String>>();
-        ArrayList<HashMap<String, String>> sortedTasks=new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> dailyTasks=new ArrayList<>();
+        ArrayList<HashMap<String, String>> sortedTasks=new ArrayList<>();
 
-        ArrayList<HashMap<String, String>> resolvedTasks=new ArrayList<HashMap<String, String>>();
-        ArrayList<HashMap<String, String>> unresolvedTasks=new ArrayList<HashMap<String, String>>();
-        ArrayList<HashMap<String, String>> cantresolveTasks=new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> resolvedTasks=new ArrayList<>();
+        ArrayList<HashMap<String, String>> unresolvedTasks=new ArrayList<>();
+        ArrayList<HashMap<String, String>> cantresolveTasks=new ArrayList<>();
 
         dailyTasks=findArrayByDate(date);
 
-        if (dailyTasks.size()>1) {
+        if (dailyTasks.size()>0) {
 
             resolvedTasks = filterArrayByStatus(AppParams.RESOLVED,dailyTasks);
             unresolvedTasks = filterArrayByStatus(AppParams.UNRESOLVED,dailyTasks);
