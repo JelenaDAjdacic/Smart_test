@@ -12,79 +12,88 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        >
+        android:layout_gravity="center_horizontal">
+
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="16"
             android:orientation="horizontal"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            >
-            <com.example.jelena.smart_test.utils.CustomTextView
+            android:layout_marginLeft="10dp">
 
+            <com.example.jelena.smart_test.utils.CustomTextView
+                android:textColor="@color/red"
                 android:id="@+id/title"
                 android:layout_columnSpan="13"
                 android:layout_gravity="fill"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/title_top_space"
                 android:textStyle="bold"
-                android:textSize="15dp"
+                android:textSize="@dimen/bold_letters"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
+
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/priority"
                 android:layout_columnSpan="3"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/title_top_space"
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
-                android:background="@drawable/oval_style"
+                android:background="@drawable/oval_style_unresolved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="@dimen/bold_letters"
+                android:textColor="@color/white" />
 
-                />
             <View
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/title_divider_space"
+                android:layout_marginBottom="@dimen/divider_label_space"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
+
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due date"
+                android:textSize="@dimen/regular_letters"
                 android:id="@+id/labelDueDate"
                 android:layout_columnSpan="8"
-                android:layout_gravity="left"
-                android:layout_marginBottom="7dp" />
+                android:layout_gravity="start"
+                android:layout_marginBottom="@dimen/label_dates_space" />
+
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/regular_letters"
                 android:text="Days left"
                 android:id="@+id/labelDaysLeft"
                 android:layout_columnSpan="8"
-                android:layout_gravity="right"
-                android:layout_marginBottom="7dp"/>
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/label_dates_space"/>
+
             <com.example.jelena.smart_test.utils.CustomTextView
+                android:textColor="@color/red"
+                android:layout_marginBottom="@dimen/date_bottom_space"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dueDate"
                 android:layout_columnSpan="8"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:textStyle="bold"/>
+
             <com.example.jelena.smart_test.utils.CustomTextView
+                android:layout_marginBottom="@dimen/date_bottom_space"
+                android:textColor="@color/red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/countdown"
                 android:layout_columnSpan="8"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:textStyle="bold"/>
-
 
         </GridLayout>
 

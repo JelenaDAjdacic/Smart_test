@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.jelena.smart_test.utils.CalendarOperations;
@@ -31,6 +33,7 @@ public class FragmentContent extends Fragment {
 
     MyAdapter adapter;
     ArrayListManipulator arrayListManipulator;
+    ImageView emptyScreen;
 
     private static final String KEY_DATE = "date";
     private static final String KEY_ARRAY = "tasks";
@@ -51,8 +54,11 @@ public class FragmentContent extends Fragment {
 
         tasksList= (ArrayList<HashMap<String, String>>) getArguments().getSerializable(KEY_ARRAY);
         View view = inflater.inflate(R.layout.fragment_content, container, false);
+        emptyScreen= (ImageView) view.findViewById(R.id.emptyScreenImage);
         final long mills =getArguments().getLong(KEY_DATE);
         sortedDailyList=null;
+
+
 
         if ( mills > 0) {
             final Context context = getActivity();
@@ -61,6 +67,7 @@ public class FragmentContent extends Fragment {
                 arrayListManipulator = new ArrayListManipulator(tasksList,getContext());
                 calendarOperations=new CalendarOperations();
                 sortedDailyList=new ArrayListManipulator(tasksList,getContext()).sortTasksForDate(TimeUtils.getFormattedDate(context, mills));
+                if (sortedDailyList.size()>0) emptyScreen.setVisibility(View.GONE);
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 taskListView.setAdapter(adapter);
                 taskListView.setItemsCanFocus(true);

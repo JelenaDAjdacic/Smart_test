@@ -33,7 +33,9 @@
             android:id="@+id/no"
             android:layout_weight="1"
             android:textColor="@color/white"
-            android:background="@color/red"/>
+            android:background="@color/red"
+            android:layout_marginRight="@dimen/button_space"
+            android:textStyle="bold"/>
 
         <Button
             android:layout_width="0dp"
@@ -42,7 +44,8 @@
             android:id="@+id/yes"
             android:textColor="@color/white"
             android:background="@color/green"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -78,7 +81,8 @@
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:background="@color/red"
-              />
+                android:layout_marginRight="@dimen/button_space"
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/submit"
@@ -87,10 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/white"
-                android:background="#F6EFDE"
-
-
-                 />
+                android:background="@color/green"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

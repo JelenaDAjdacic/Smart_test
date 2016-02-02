@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -49,13 +50,13 @@ public class TaskDetails extends AppCompatActivity {
 
         //get data for selected day
         Intent i=getIntent();
-        tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getResources().getString(R.string.sorted_array));
-        position=i.getIntExtra(getResources().getString(R.string.clicked_item_position), 0);
-        lastpagerpos=i.getIntExtra(getResources().getString(R.string.calendar_position),0);
+        tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getString(R.string.sorted_array));
+        position=i.getIntExtra(getString(R.string.clicked_item_position), 0);
+        lastpagerpos=i.getIntExtra(getString(R.string.calendar_position), 0);
 
 
-        sharedPreferences = getApplicationContext().getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
-        sharedPreferencesComments = getApplicationContext().getSharedPreferences(AppParams.KEY_COMMENTS, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
+        sharedPreferencesComments = getSharedPreferences(AppParams.KEY_COMMENTS, Context.MODE_PRIVATE);
 
         id=tasksList.get(position).get(AppParams.TAG_ID);
         titleDetail= (TextView) findViewById(R.id.titleDetail);
@@ -77,7 +78,7 @@ public class TaskDetails extends AppCompatActivity {
     public void showDialog(){
         CommentDialog dialog=new CommentDialog();
         dialog.setCancelable(false);
-        dialog.show(getFragmentManager(), getResources().getString(R.string.dialog));
+        dialog.show(getFragmentManager(), getString(R.string.dialog));
 
     }
 
@@ -101,19 +102,27 @@ public class TaskDetails extends AppCompatActivity {
             image.setImageResource(R.drawable.resolved_sign);
             statusDetail.setText(getResources().getString(R.string.resolved));
             buttonContainer.setVisibility(View.GONE);
+            priorityDetail.setBackgroundResource(R.drawable.oval_shape_resolved);
+            titleDetail.setTextColor(ContextCompat.getColor(this, R.color.green));
+            dueDateDetail.setTextColor(ContextCompat.getColor(this, R.color.green));
+            daysLeftDetail.setTextColor(ContextCompat.getColor(this, R.color.green));
+            statusDetail.setTextColor(ContextCompat.getColor(this, R.color.green));
+
+
 
         }
         if (sharedPreferences.getString(id,"").equals(AppParams.CANT_RESOLVE)){
             image.setImageResource(R.drawable.unresolved_sign);
-            statusDetail.setText(getResources().getString(R.string.unresolved));
+            statusDetail.setText(getString(R.string.unresolved));
             buttonContainer.setVisibility(View.GONE);
-
         }
 
         if (sharedPreferences.getString(id,"").equals(AppParams.UNRESOLVED)){
-            statusDetail.setText(getResources().getString(R.string.unresolved));
+            statusDetail.setText(getString(R.string.unresolved));
+            statusDetail.setTextColor(ContextCompat.getColor(this, R.color.backgroundColor));
+            priorityDetail.setVisibility(View.VISIBLE);
 
-            if (CalendarOperations.currentDate(getResources().getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
+            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
 
                 buttonContainer.setVisibility(View.VISIBLE);
 

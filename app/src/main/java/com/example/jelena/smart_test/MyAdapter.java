@@ -2,6 +2,7 @@ package com.example.jelena.smart_test;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ class MyAdapter extends BaseAdapter {
         priorityValue=dailyTasks.get(position).get(AppParams.TAG_PRIORITY);
         idValue=dailyTasks.get(position).get(AppParams.TAG_ID);
 
-        dueDay.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(dueDateValue,context.getResources().getString(R.string.date_format),context.getResources().getString(R.string.short_date_format))));
+        dueDay.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(dueDateValue, context.getResources().getString(R.string.date_format), context.getResources().getString(R.string.short_date_format))));
         title.setText(titleValue);
         countdown.setText(CalendarOperations.daysBetweenDates(dueDateValue, context.getResources().getString(R.string.date_format)));
         priority.setText(priorityValue);
@@ -89,6 +90,10 @@ class MyAdapter extends BaseAdapter {
 
         if(sharedPreferences.getString(idValue,"").equals(AppParams.RESOLVED)){
             row.setBackgroundResource(R.drawable.row_resolved);
+            dueDay.setTextColor(ContextCompat.getColor(context, R.color.green));
+            title.setTextColor(ContextCompat.getColor(context, R.color.green));
+            countdown.setTextColor(ContextCompat.getColor(context, R.color.green));
+            titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
         }
         else  if (sharedPreferences.getString(idValue,"").equals(AppParams.CANT_RESOLVE)){
 

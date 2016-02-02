@@ -13,7 +13,7 @@
     <dimen name="divider_label_space">10dp</dimen>
     <dimen name="label_dates_space">7dp</dimen>
     <dimen name="date_bottom_space">10dp</dimen>
-    <dimen name="bold_letters">15dp</dimen>
-    <dimen name="regular_letters">10dp</dimen>
+    <dimen name="bold_letters">15sp</dimen>
+    <dimen name="regular_letters">10sp</dimen>
     <dimen name="between_items">10dp</dimen>
 </resources>
