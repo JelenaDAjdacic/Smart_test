@@ -37,4 +37,15 @@
     <string name="sorted_array">SORTED_ARRAY</string>
     <string name="clicked_item_position">CLICKED_ITEM_POSITION</string>
     <string name="calendar_position">CALENDAR_POSITION</string>
+
+    <!-- Progress dialog message -->
+    <string name="progress_dialog_message">Please wait...</string>
+
+    <!-- FragmentContent keys -->
+    <string name="bundle_extra_date">DATE</string>
+    <string name="bundle_extra_tasks">TASKS</string>
+
+    <!-- Button text -->
+    <string name="button_resolve">Resolve</string>
+    <string name="button_cant_resolve">Can\'t resolve</string>
 </resources>

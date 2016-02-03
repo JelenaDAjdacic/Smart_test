@@ -115,6 +115,10 @@ public class TaskDetails extends AppCompatActivity {
             image.setImageResource(R.drawable.unresolved_sign);
             statusDetail.setText(getString(R.string.unresolved));
             buttonContainer.setVisibility(View.GONE);
+            titleDetail.setTextColor(ContextCompat.getColor(this, R.color.red));
+            dueDateDetail.setTextColor(ContextCompat.getColor(this, R.color.red));
+            daysLeftDetail.setTextColor(ContextCompat.getColor(this, R.color.red));
+            statusDetail.setTextColor(ContextCompat.getColor(this, R.color.red));
         }
 
         if (sharedPreferences.getString(id,"").equals(AppParams.UNRESOLVED)){
@@ -122,7 +126,7 @@ public class TaskDetails extends AppCompatActivity {
             statusDetail.setTextColor(ContextCompat.getColor(this, R.color.backgroundColor));
             priorityDetail.setVisibility(View.VISIBLE);
 
-            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<0)
+            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<=0)
 
                 buttonContainer.setVisibility(View.VISIBLE);
 

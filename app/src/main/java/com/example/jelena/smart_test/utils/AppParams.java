@@ -25,4 +25,8 @@ public class AppParams {
    public static final String RESOLVED="Resolved";
    public static final String UNRESOLVED="Unresolved";
    public static final String CANT_RESOLVE="Can't resolve";
+
+    //FragmentContent Bundle Keys
+    public static final String BUNDLE_KEY_DATE = "DATE";
+    public static final String BUNDLE_KEY_TASKS = "TASKS";
 }

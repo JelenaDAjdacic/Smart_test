@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,7 +34,10 @@ class MyAdapter extends BaseAdapter {
 
     String idValue="";
     SharedPreferences sharedPreferences;
-    LinearLayout container;
+    FrameLayout container;
+
+    LinearLayout overlay;
+    LinearLayout grid;
 
 
     public MyAdapter(Context context,ArrayList<HashMap<String, String>> dailyTasks){
@@ -70,12 +74,20 @@ class MyAdapter extends BaseAdapter {
         else {
             row = convertView;
         }
+        updateView(row,position);
 
-        container= (LinearLayout) row.findViewById(R.id.customRow);
+
+        return row;
+    }
+    public void updateView(View row, int position){
+
+        container= (FrameLayout) row.findViewById(R.id.customRow);
         title= (TextView) row.findViewById(R.id.title);
         dueDay= (TextView) row.findViewById(R.id.dueDate);
         countdown= (TextView) row.findViewById(R.id.countdown);
         priority= (TextView) row.findViewById(R.id.priority);
+        overlay= (LinearLayout) row.findViewById(R.id.overlay);
+        grid= (LinearLayout) row.findViewById(R.id.grid);
 
         dueDateValue=dailyTasks.get(position).get(AppParams.TAG_DUE_DATE);
         titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
@@ -94,17 +106,24 @@ class MyAdapter extends BaseAdapter {
             title.setTextColor(ContextCompat.getColor(context, R.color.green));
             countdown.setTextColor(ContextCompat.getColor(context, R.color.green));
             titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
+            priority.setVisibility(View.GONE);
         }
         else  if (sharedPreferences.getString(idValue,"").equals(AppParams.CANT_RESOLVE)){
 
             row.setBackgroundResource(R.drawable.row_unresolved);
+            dueDay.setTextColor(ContextCompat.getColor(context, R.color.red));
+            title.setTextColor(ContextCompat.getColor(context, R.color.red));
+            countdown.setTextColor(ContextCompat.getColor(context, R.color.red));
+            priority.setVisibility(View.GONE);
         }
         else {
             row.setBackgroundResource(R.drawable.row);
             priority.setVisibility(View.VISIBLE);
+            dueDay.setTextColor(ContextCompat.getColor(context, R.color.red));
+            title.setTextColor(ContextCompat.getColor(context, R.color.red));
+            countdown.setTextColor(ContextCompat.getColor(context, R.color.red));
 
         }
 
-        return row;
     }
 }

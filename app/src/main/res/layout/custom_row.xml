@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="80dp"
+    android:minHeight="@dimen/min_height"
     android:id="@+id/customRow"
 
     >
@@ -12,7 +12,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/grid">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -98,6 +99,37 @@
         </GridLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/transparent_gray"
+        android:gravity="end|center_vertical"
 
 
-</LinearLayout>
+       >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_unresolved"
+            android:layout_marginRight="@dimen/button_space"
+            android:adjustViewBounds="true"
+            android:id="@+id/btnNotResolved"
+            />
+        <ImageButton
+            android:id="@+id/btnResolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_resolved"
+            android:layout_marginRight="@dimen/button_space"
+            android:adjustViewBounds="true"
+            />
+        </LinearLayout>
+
+
+
+
+</FrameLayout>

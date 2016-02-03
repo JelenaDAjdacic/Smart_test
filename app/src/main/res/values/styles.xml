@@ -9,9 +9,18 @@
     </style>
     <!-- Pager theme. -->
     <style name="PagerTabStripText">
-        <item name="android:textSize">15dp</item>
+        <item name="android:textSize">@dimen/bold_letters</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/red</item>
     </style>
+    <!-- Button theme. -->
+    <style name="ButtonText">
+        <item name="android:textSize">@dimen/bold_letters</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+
 
 </resources>

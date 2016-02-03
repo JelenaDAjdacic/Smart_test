@@ -30,11 +30,13 @@ public class CommentDialog extends DialogFragment {
     SharedPreferences.Editor editor;
     TaskDetails taskDetails;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.comment_dialog, null);
-        getDialog().setTitle(R.string.comment);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
+
 
 
 

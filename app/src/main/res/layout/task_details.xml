@@ -61,7 +61,7 @@
                 android:text="Due date"
                 android:id="@+id/labelDueDate"
                 android:layout_columnSpan="8"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginBottom="7dp"
                 />
             <com.example.jelena.smart_test.utils.CustomTextView
@@ -70,7 +70,7 @@
                 android:text="Days left"
                 android:id="@+id/labelDaysLeft"
                 android:layout_columnSpan="8"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginBottom="7dp"/>
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:textColor="@color/red"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/dueDateDetail"
                 android:layout_columnSpan="8"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:textStyle="bold"/>
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:textColor="@color/red"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/daysLeftDetail"
                 android:layout_columnSpan="8"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:textStyle="bold"/>
             <View
                 android:layout_marginTop="7dp"
@@ -126,28 +126,32 @@
         android:visibility="gone"
         android:id="@+id/buttonContainer">
         <Button
+            android:background="@color/green"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Resolve"
+            android:text="@string/button_resolve"
+            android:textAppearance="@style/ButtonText"
+            android:layout_marginRight="@dimen/button_space"
             android:id="@+id/resolve"
             android:layout_weight="1"
-            android:textStyle="bold"/>
+            android:layout_gravity="end"/>
 
         <Button
             android:background="@color/red"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Can't resolve"
+            android:text="@string/button_cant_resolve"
             android:id="@+id/can_not_resolve"
             android:layout_weight="1"
-            android:textStyle="bold"/>
+            android:textAppearance="@style/ButtonText"
+            android:layout_marginRight="@dimen/button_space"
+            android:layout_gravity="start"/>
 
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:id="@+id/emptyImageContainer"
         android:orientation="horizontal"
         android:gravity="center"

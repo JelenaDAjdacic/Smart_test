@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putInt(getResources().getString(R.string.last_calendar_position), lastPagerPosition);
+        outState.putInt(getString(R.string.last_calendar_position), lastPagerPosition);
     }
 
     public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
 
             cal = TimeUtils.getDayForPosition(position);
-            return StringUtils.capitalize(CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), "yyyy-MM-dd", "MMM dd"));
+            return StringUtils.capitalize(CalendarOperations.convertDateFormat(TimeUtils.getFormattedDate(mContext, cal.getTimeInMillis()), getString(R.string.date_format), getString(R.string.short_date_format)));
 
         }
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Showing progress dialog
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage(getString(R.string.progress_dialog_message));
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             // Making a request to url and getting response
             String jsonStr = client.getContent();
 
-        //    Log.d("Response: ", "> " + jsonStr);
 
             if (jsonStr != null) {
                 try {
@@ -262,7 +261,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 }

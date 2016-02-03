@@ -1,8 +1,5 @@
 package com.example.jelena.smart_test.utils;
 
-/**
- * Created by Win 7 on 26.1.2016.
- */
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
@@ -63,7 +60,7 @@ public class TimeUtils {
 
 
     public static String getFormattedDate(Context context, long date) {
-        final String defaultPattern = "yyyy-MM-dd";
+        final String defaultPattern = context.getResources().getString(R.string.date_format);
 
         String pattern = null;
         if (context != null) {

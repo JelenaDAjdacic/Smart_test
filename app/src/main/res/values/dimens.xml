@@ -7,13 +7,18 @@
     <dimen name="dialog_margin">10dp</dimen>
     <dimen name="button_space">10dp</dimen>
 
-    <!-- Dialog margins and spaces tasks. -->
+    <!-- Row margins and spaces tasks. -->
     <dimen name="title_top_space">10dp</dimen>
     <dimen name="title_divider_space">7dp</dimen>
     <dimen name="divider_label_space">10dp</dimen>
     <dimen name="label_dates_space">7dp</dimen>
     <dimen name="date_bottom_space">10dp</dimen>
+    <dimen name="between_items">10dp</dimen>
+    <dimen name="min_height">80dp</dimen>
+
+    <!--Font siyes-->
     <dimen name="bold_letters">15sp</dimen>
     <dimen name="regular_letters">10sp</dimen>
-    <dimen name="between_items">10dp</dimen>
+
+
 </resources>
