@@ -8,4 +8,8 @@
     <color name="red">#EF4B5E</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#00887A</color>
+
+    <color name="background_resolved_row">#DCF5F3</color>
+    <color name="background_unresolved_row">#F6EFDE</color>
+    <color name="background_cant_resolve_row">#FFDBDD</color>
 </resources>

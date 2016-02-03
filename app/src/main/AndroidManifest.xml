@@ -3,7 +3,6 @@
     package="com.example.jelena.smart_test">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,19 +11,15 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/task_title"
-            >
+            android:label="@string/task_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".TaskDetails"
-            android:label="@string/task_title"
-            >
-
+            android:label="@string/task_detail">
         </activity>
     </application>
 

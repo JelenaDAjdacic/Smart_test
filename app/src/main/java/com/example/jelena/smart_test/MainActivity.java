@@ -16,7 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
+import android.view.View;
 
 
 import com.example.jelena.smart_test.utils.*;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
         sharedPref = mContext.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
+        vpPager.setVisibility(View.GONE);
 
 
         pTab= (PagerTabStrip) findViewById(R.id.pager_header);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         pTab.setTabIndicatorColor(ContextCompat.getColor(mContext,R.color.backgroundColor));
 
 
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
 
@@ -254,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Updating parsed JSON data into ListView
              */
+            vpPager.setVisibility(View.VISIBLE);
+            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
             vpPager.setAdapter(adapterViewPager);
             vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
 

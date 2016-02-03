@@ -9,37 +9,41 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.jelena.smart_test.MainActivity"
-    android:background="#FFDE61">
-
+    android:background="@color/backgroundColor">
 
     <ListView
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/todayTasks"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/between_items"
-        />
+        android:dividerHeight="@dimen/between_items" />
+
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentBottom="true"
-    android:id="@+id/emptyScreenContainer"
-    android:orientation="horizontal"
-    android:gravity="center"
 
-    >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/emptyScreenContainer"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/emptyScreenImage"
-        android:scaleType="fitXY"
-        android:background="@drawable/empty_screen_illustration"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/emptyScreenImage"
+            android:scaleType="fitXY"
+            android:background="@drawable/empty_screen_illustration" />
 
-        />
+
+        <com.example.jelena.smart_test.utils.CustomTextView
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_tasks"
+            android:textAppearance="@style/ButtonText"
+            android:gravity="center_horizontal" />
+
     </LinearLayout>
+
 </LinearLayout>

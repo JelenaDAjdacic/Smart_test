@@ -1,7 +1,10 @@
 <resources>
-    <!-- layout strings -->
+
     <string name="app_name">Smart_test</string>
+
+    <!-- Action bar titles -->
     <string name="task_title">Tasks</string>
+    <string name="task_detail">Task details</string>
 
     <!-- saveInstance Bundle key -->
 
@@ -40,6 +43,9 @@
 
     <!-- Progress dialog message -->
     <string name="progress_dialog_message">Please wait...</string>
+
+    <!-- No tasks for today message -->
+    <string name="no_tasks">No tasks for today!</string>
 
     <!-- FragmentContent keys -->
     <string name="bundle_extra_date">DATE</string>

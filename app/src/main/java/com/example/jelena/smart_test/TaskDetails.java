@@ -71,9 +71,7 @@ public class TaskDetails extends AppCompatActivity {
         image= (ImageView) findViewById(R.id.imageView);
 
         updateTask();
-
     }
-
 
     public void showDialog(){
         CommentDialog dialog=new CommentDialog();

@@ -26,8 +26,6 @@ import java.util.HashMap;
 import com.example.jelena.smart_test.utils.*;
 
 
-
-
 public class FragmentContent extends Fragment {
 
     private ListView taskListView;
@@ -39,9 +37,7 @@ public class FragmentContent extends Fragment {
 
     MyAdapter adapter;
     ArrayListManipulator arrayListManipulator;
-    ImageView emptyScreen;
-
-
+    LinearLayout emptyScreen;
 
 
     public static FragmentContent newInstance(long date,ArrayList<HashMap<String, String>> tasksList) {
@@ -59,7 +55,7 @@ public class FragmentContent extends Fragment {
 
         tasksList= (ArrayList<HashMap<String, String>>) getArguments().getSerializable(AppParams.BUNDLE_KEY_TASKS);
         View view = inflater.inflate(R.layout.fragment_content, container, false);
-        emptyScreen= (ImageView) view.findViewById(R.id.emptyScreenImage);
+        emptyScreen= (LinearLayout) view.findViewById(R.id.emptyScreenContainer);
         final long mills =getArguments().getLong(AppParams.BUNDLE_KEY_DATE);
         sortedDailyList=null;
         sharedPreferencesStatus=getActivity().getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
@@ -74,7 +70,8 @@ public class FragmentContent extends Fragment {
                 arrayListManipulator = new ArrayListManipulator(tasksList,getContext());
                 calendarOperations=new CalendarOperations();
                 sortedDailyList=new ArrayListManipulator(tasksList,getContext()).sortTasksForDate(TimeUtils.getFormattedDate(context, mills));
-                if (sortedDailyList.size()>0) emptyScreen.setVisibility(View.GONE);
+                if (sortedDailyList.size()==0) emptyScreen.setVisibility(View.VISIBLE);
+                else{
                 adapter = new MyAdapter(getContext(), sortedDailyList);
                 taskListView.setAdapter(adapter);
                 taskListView.setItemsCanFocus(true);
@@ -83,35 +80,35 @@ public class FragmentContent extends Fragment {
                 taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MainActivity mainActivity = (MainActivity) getActivity();
 
+                        MainActivity mainActivity = (MainActivity) getActivity();
                         Intent intent = new Intent(getContext(), TaskDetails.class);
                         intent.putExtra(getResources().getString(R.string.sorted_array), sortedDailyList);
                         intent.putExtra(getResources().getString(R.string.clicked_item_position), position);
                         intent.putExtra(getResources().getString(R.string.calendar_position), mainActivity.lastPagerPosition);
                         startActivity(intent);
+
                     }
                 });
                 taskListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-                        if ((CalendarOperations.currentDate(getString(R.string.date_format)).compareTo( sortedDailyList.get(position).get(AppParams.TAG_DUE_DATE))<=0)&&(sharedPreferencesStatus.getString(sortedDailyList.get(position).get(AppParams.TAG_ID),"").equals(AppParams.UNRESOLVED))) {
-                            //taskListView.getItemAtPosition(position).
+                        if ((CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(sortedDailyList.get(position).get(AppParams.TAG_DUE_DATE)) <= 0) && (sharedPreferencesStatus.getString(sortedDailyList.get(position).get(AppParams.TAG_ID), "").equals(AppParams.UNRESOLVED))) {
 
                             final LinearLayout overlay = (LinearLayout) view.findViewById(R.id.overlay);
                             overlay.setVisibility(View.VISIBLE);
 
-                            ImageButton btnResolve= (ImageButton) view.findViewById(R.id.btnResolved);
-                            ImageButton btnNotResolve= (ImageButton) view.findViewById(R.id.btnNotResolved);
+                            ImageButton btnResolve = (ImageButton) view.findViewById(R.id.btnResolved);
+                            ImageButton btnNotResolve = (ImageButton) view.findViewById(R.id.btnNotResolved);
 
                             btnResolve.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    editor.putString(sortedDailyList.get(position).get(AppParams.TAG_ID),AppParams.RESOLVED);
+
+                                    editor.putString(sortedDailyList.get(position).get(AppParams.TAG_ID), AppParams.RESOLVED);
                                     editor.commit();
                                     adapter.updateView(view, position);
                                     overlay.setVisibility(View.GONE);
-
 
                                 }
                             });
@@ -120,7 +117,7 @@ public class FragmentContent extends Fragment {
                                 @Override
                                 public void onClick(View v) {
 
-                                    editor.putString(sortedDailyList.get(position).get(AppParams.TAG_ID),AppParams.CANT_RESOLVE);
+                                    editor.putString(sortedDailyList.get(position).get(AppParams.TAG_ID), AppParams.CANT_RESOLVE);
                                     editor.commit();
                                     adapter.updateView(view, position);
                                     overlay.setVisibility(View.GONE);
@@ -135,6 +132,7 @@ public class FragmentContent extends Fragment {
                 });
 
            }
+            }
         }
 
         return view;
