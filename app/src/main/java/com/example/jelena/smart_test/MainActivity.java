@@ -1,7 +1,9 @@
 package com.example.jelena.smart_test;
 
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -14,9 +16,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import com.example.jelena.smart_test.utils.*;
@@ -35,13 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     JSONObject[] jsonObjects;
 
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
-
     ProgressDialog pDialog;
 
-    //
-    private static final String KEY_TASK="KeyTask";
+    //last position before screen rotation
     int lastPagerPosition;
 
     // tasks JSONArray
@@ -56,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
     ViewPager vpPager;
     PagerTabStrip pTab;
 
+    LinearLayout logo;
+    LinearLayout introImage;
 
+    // custom infinite pager
     private CachingFragmentStatePagerAdapter adapterViewPager;
 
     @Override
@@ -64,16 +70,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mContext = this;
-        sharedPref = mContext.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
-        vpPager.setVisibility(View.GONE);
 
+        StringUtils.setActionBarFont(this, getSupportActionBar(), getString(R.string.task_title));
 
-        pTab= (PagerTabStrip) findViewById(R.id.pager_header);
-        pTab.setDrawFullUnderline(false);
-        pTab.setTabIndicatorColor(ContextCompat.getColor(mContext,R.color.backgroundColor));
+        componentInitialization();
+
+        showIntro();
+
 
 
 
@@ -100,23 +104,23 @@ public class MainActivity extends AppCompatActivity {
 
                         lastPagerPosition=TimeUtils.getPositionForDay(Calendar.getInstance());
 
-
                     } else {
+
                     lastPagerPosition=savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
 
                 }
             new GetContacts().execute();
         }
-
+        else {
+           showAlert();
+        }
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
-        vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
+        showTasks();
 
     }
 
@@ -157,8 +161,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void showIntro(){
+
+        vpPager.setVisibility(View.GONE);
+        logo.setVisibility(View.VISIBLE);
+        introImage.setVisibility(View.VISIBLE);
+
+    }
+    private void showAlert(){
+
+        com.example.jelena.smart_test.AlertDialog dialog=new com.example.jelena.smart_test.AlertDialog();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(), getString(R.string.alert_tag));
+
+    }
+    private void hideIntro(){
+
+        if (logo.getVisibility()==View.VISIBLE&&introImage.getVisibility()==View.VISIBLE){
+
+            logo.setVisibility(View.GONE);
+            introImage.setVisibility(View.GONE);}
+        vpPager.setVisibility(View.VISIBLE);
+
+    }
+
+    private void componentInitialization(){
+
+        logo=(LinearLayout)findViewById(R.id.logoImage);
+        introImage= (LinearLayout) findViewById(R.id.illustrationImage);
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
+
+        pTab= (PagerTabStrip) findViewById(R.id.pager_header);
+        pTab.setDrawFullUnderline(false);
+        pTab.setTabIndicatorColor(ContextCompat.getColor(mContext, R.color.backgroundColor));
+
+
+
+    }
+
+
     //Checking Internet connection
     private boolean isConnectingToInternet(Context applicationContext){
+
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null) {
@@ -225,14 +269,11 @@ public class MainActivity extends AppCompatActivity {
 
                         // adding contact to contact list
                         tasksList.add(task);
-                        if (sharedPref.getString(id,"").isEmpty()){
+                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE,AppParams.KEY_STATUS,id).isEmpty()){
 
-                            editor= sharedPref.edit();
-                            editor.putString(id, AppParams.UNRESOLVED);
-                            editor.commit();
+                            SharedPreferenceUtils.putString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id, AppParams.UNRESOLVED);
 
                         }
-
 
                     }
                 } catch (JSONException e) {
@@ -253,16 +294,22 @@ public class MainActivity extends AppCompatActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            /**
-             * Updating parsed JSON data into ListView
-             */
-            vpPager.setVisibility(View.VISIBLE);
-            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-            vpPager.setAdapter(adapterViewPager);
-            vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
 
+            // Updating parsed JSON data into ListView
+
+            hideIntro();
+            showTasks();
 
         }
 
     }
+    private void showTasks(){
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+        vpPager.setAdapter(adapterViewPager);
+        vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
+
+    }
+
+
 }

@@ -4,12 +4,12 @@
 
     <!-- view background color -->
     <solid
-        android:color="#88676767" >
+        android:color="@color/transparentGrey" >
     </solid>
 
     <!-- Here is the corner radius -->
     <corners
-        android:radius="5dp"   >
+        android:radius="@dimen/corner"   >
     </corners>
 
 </shape>

@@ -58,7 +58,7 @@
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Due date"
+                android:text="@string/due_date"
                 android:id="@+id/labelDueDate"
                 android:layout_columnSpan="8"
                 android:layout_gravity="start"
@@ -67,7 +67,7 @@
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Days left"
+                android:text="@string/days_left"
                 android:id="@+id/labelDaysLeft"
                 android:layout_columnSpan="8"
                 android:layout_gravity="end"
@@ -125,8 +125,10 @@
         android:layout_marginTop="10dp"
         android:visibility="gone"
         android:id="@+id/buttonContainer">
-        <Button
-            android:background="@color/green"
+
+        <com.example.jelena.smart_test.utils.CustomButton
+            android:textColor="@color/white"
+            android:background="@drawable/green_button_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/button_resolve"
@@ -137,8 +139,9 @@
             android:layout_weight="1"
             android:layout_gravity="end"/>
 
-        <Button
-            android:background="@color/red"
+        <com.example.jelena.smart_test.utils.CustomButton
+            android:textColor="@color/white"
+            android:background="@drawable/red_button_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/button_cant_resolve"

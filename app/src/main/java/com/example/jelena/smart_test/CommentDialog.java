@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 
 import com.example.jelena.smart_test.utils.AppParams;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 
 
 public class CommentDialog extends DialogFragment {
@@ -26,22 +27,15 @@ public class CommentDialog extends DialogFragment {
     Button submit;
     LinearLayout questionContainer;
     LinearLayout commentContainer;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     TaskDetails taskDetails;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view=inflater.inflate(R.layout.comment_dialog, null);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
-
-
-
-
-        sharedPreferences = getActivity().getSharedPreferences(AppParams.KEY_COMMENTS, Context.MODE_PRIVATE);
-
 
         taskDetails= (TaskDetails) getActivity();
 
@@ -76,9 +70,8 @@ public class CommentDialog extends DialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor=sharedPreferences.edit();
-                editor.putString(taskDetails.id,comment.getText().toString());
-                editor.commit();
+
+                SharedPreferenceUtils.putString(getActivity(),Context.MODE_PRIVATE,AppParams.KEY_COMMENTS,taskDetails.id,comment.getText().toString());
                 taskDetails.onNoClicked();
                 dismiss();
 
@@ -90,7 +83,6 @@ public class CommentDialog extends DialogFragment {
             public void onClick(View v) {
 
                 dismiss();
-
 
             }
         });

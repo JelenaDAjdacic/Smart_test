@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 import com.example.jelena.smart_test.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ class MyAdapter extends BaseAdapter {
     String priorityValue="";
 
     String idValue="";
-    SharedPreferences sharedPreferences;
     FrameLayout container;
 
     LinearLayout overlay;
@@ -44,7 +44,6 @@ class MyAdapter extends BaseAdapter {
 
         this.context=context;
         this.dailyTasks=dailyTasks;
-        sharedPreferences = context.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
 
 
     }
@@ -79,7 +78,7 @@ class MyAdapter extends BaseAdapter {
 
         return row;
     }
-    public void updateView(View row, int position){
+    private void componentInitialization(View row){
 
         container= (FrameLayout) row.findViewById(R.id.customRow);
         title= (TextView) row.findViewById(R.id.title);
@@ -88,6 +87,11 @@ class MyAdapter extends BaseAdapter {
         priority= (TextView) row.findViewById(R.id.priority);
         overlay= (LinearLayout) row.findViewById(R.id.overlay);
         grid= (LinearLayout) row.findViewById(R.id.grid);
+
+    }
+    public void updateView(View row, int position){
+
+        componentInitialization(row);
 
         dueDateValue=dailyTasks.get(position).get(AppParams.TAG_DUE_DATE);
         titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
@@ -100,30 +104,30 @@ class MyAdapter extends BaseAdapter {
         priority.setText(priorityValue);
 
 
-        if(sharedPreferences.getString(idValue,"").equals(AppParams.RESOLVED)){
-            row.setBackgroundResource(R.drawable.row_resolved);
-            dueDay.setTextColor(ContextCompat.getColor(context, R.color.green));
-            title.setTextColor(ContextCompat.getColor(context, R.color.green));
-            countdown.setTextColor(ContextCompat.getColor(context, R.color.green));
-            titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
-            priority.setVisibility(View.GONE);
-        }
-        else  if (sharedPreferences.getString(idValue,"").equals(AppParams.CANT_RESOLVE)){
+        if(SharedPreferenceUtils.getString(context, Context.MODE_PRIVATE, AppParams.KEY_STATUS, idValue).equals(AppParams.RESOLVED)){
 
-            row.setBackgroundResource(R.drawable.row_unresolved);
-            dueDay.setTextColor(ContextCompat.getColor(context, R.color.red));
-            title.setTextColor(ContextCompat.getColor(context, R.color.red));
-            countdown.setTextColor(ContextCompat.getColor(context, R.color.red));
-            priority.setVisibility(View.GONE);
+            colorRowByStatus(row, position, context, R.drawable.row_resolved,  R.color.green, View.GONE);
+
+        }
+        else  if (SharedPreferenceUtils.getString(context, Context.MODE_PRIVATE, AppParams.KEY_STATUS, idValue).equals(AppParams.CANT_RESOLVE)){
+
+            colorRowByStatus(row, position, context, R.drawable.row_unresolved,  R.color.red, View.GONE);
+
         }
         else {
-            row.setBackgroundResource(R.drawable.row);
-            priority.setVisibility(View.VISIBLE);
-            dueDay.setTextColor(ContextCompat.getColor(context, R.color.red));
-            title.setTextColor(ContextCompat.getColor(context, R.color.red));
-            countdown.setTextColor(ContextCompat.getColor(context, R.color.red));
 
+            colorRowByStatus(row, position, context, R.drawable.row,  R.color.red, View.VISIBLE);
         }
+
+    }
+    private void colorRowByStatus(View row, int position, Context context, int idDrawable, int idColor, int priorityVisibility){
+
+        row.setBackgroundResource(idDrawable);
+        dueDay.setTextColor(ContextCompat.getColor(context, idColor));
+        title.setTextColor(ContextCompat.getColor(context, idColor));
+        countdown.setTextColor(ContextCompat.getColor(context, idColor));
+        titleValue=dailyTasks.get(position).get(AppParams.TAG_TITLE);
+        priority.setVisibility(priorityVisibility);
 
     }
 }

@@ -23,6 +23,7 @@
     <!--Font siyes-->
 
     <dimen name="bold_letters">15sp</dimen>
+    <dimen name="action_bar_letters">20sp</dimen>
     <dimen name="regular_letters">10sp</dimen>
 
 

@@ -19,6 +19,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="ActionBarText">
+        <item name="android:textSize">@dimen/action_bar_letters</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
 

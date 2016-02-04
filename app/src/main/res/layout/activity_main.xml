@@ -26,23 +26,38 @@
 
 
     </android.support.v4.view.ViewPager>
-
+    <LinearLayout
+        android:id="@+id/logoImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/illustrationImage"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:gravity="center">
 
             <ImageView
-
-               android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/smart_tasks_logo"/>
-
-
-            <ImageView
-                android:id="@+id/illustration"
-                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/intro_screen_illustration"/>
+                android:src="@drawable/smart_tasks_logo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/illustrationImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+            <ImageView
+                android:gravity="center"
+                android:id="@+id/illustration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/intro_screen_illustration"
+                android:layout_gravity="center" />
+    </LinearLayout>
 
 
 

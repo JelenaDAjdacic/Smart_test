@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/emptyScreenImage"
             android:scaleType="fitXY"
-            android:background="@drawable/empty_screen_illustration" />
+            android:src="@drawable/empty_screen_illustration" />
 
 
         <com.example.jelena.smart_test.utils.CustomTextView
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_tasks"
-            android:textAppearance="@style/ButtonText"
+            android:textAppearance="@style/ActionBarText"
             android:gravity="center_horizontal" />
 
     </LinearLayout>

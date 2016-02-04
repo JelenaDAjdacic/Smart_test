@@ -12,22 +12,23 @@
         android:layout_height="match_parent"
         android:id="@+id/questionContainer"
         android:minHeight="0dp">
+
         <TextView
+            android:layout_margin="@dimen/dialog_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/PagerTabStripText"
             android:text="@string/dialogQuestion"
-            android:id="@+id/textView"
-           />
-        <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/wrapperQuestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dialog_margin"
-         >
+            android:id="@+id/textView" />
 
-        <Button
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/wrapperQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dialog_margin">
+
+        <com.example.jelena.smart_test.utils.CustomButton
             android:textAppearance="@style/ButtonText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,17 +36,16 @@
             android:id="@+id/no"
             android:layout_weight="1"
             android:textColor="@color/white"
-            android:background="@color/red"
+            android:background="@drawable/red_button_style"
             android:layout_marginRight="@dimen/button_space"
             android:textStyle="bold"/>
-
-        <Button
+        <com.example.jelena.smart_test.utils.CustomButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/yes"
             android:id="@+id/yes"
             android:textColor="@color/white"
-            android:background="@color/green"
+            android:background="@drawable/green_button_style"
             android:layout_weight="1"
             android:textStyle="bold"
             android:textAppearance="@style/PagerTabStripText"/>
@@ -58,14 +58,13 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout="@+id/questionContainer"
-        >
-
+        android:layout="@+id/questionContainer">
         <EditText
+            android:layout_margin="@dimen/dialog_margin"
             android:background="@color/backgroundColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="15dp"
+            android:minHeight="@dimen/bold_letters"
             android:inputType="text"
             android:hint="@string/hint"
             android:textAppearance="@style/PagerTabStripText"
@@ -75,31 +74,31 @@
             android:id="@+id/wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dialog_margin"
-            >
-            <Button
+            android:layout_margin="@dimen/dialog_margin">
+
+            <com.example.jelena.smart_test.utils.CustomButton
                 android:id="@+id/cancel"
                 android:text="@string/cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/white"
-                android:background="@color/red"
+                android:background="@drawable/red_button_style"
                 android:layout_marginRight="@dimen/button_space"
-                android:textAppearance="@style/ButtonText"
-                />
+                android:textAppearance="@style/ButtonText" />
 
-            <Button
+            <com.example.jelena.smart_test.utils.CustomButton
                 android:id="@+id/submit"
                 android:text="@string/submit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/white"
-                android:background="@color/green"
+                android:background="@drawable/green_button_style"
                 android:textAppearance="@style/ButtonText" />
 
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

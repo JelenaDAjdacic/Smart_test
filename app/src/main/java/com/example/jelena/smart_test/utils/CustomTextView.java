@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
+import com.example.jelena.smart_test.R;
 
 
 public class CustomTextView extends TextView {
@@ -24,9 +25,13 @@ public class CustomTextView extends TextView {
 
         public void setTypeface(Typeface tf, int style) {
             if (style == Typeface.BOLD) {
-                super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/AmsiPro-Bold.otf")/*, -1*/);
+
+                super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), getResources().getString(R.string.font_bold))/*, -1*/);
+
             } else {
-                super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/AmsiPro-Regular.otf")/*, -1*/);
+
+                super.setTypeface(Typeface.createFromAsset(getContext().getAssets(),  getResources().getString(R.string.font_regular))/*, -1*/);
+
             }
         }
     }

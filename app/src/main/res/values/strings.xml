@@ -1,10 +1,14 @@
 <resources>
+    <!-- fonts -->
+
+    <string name="font_bold">fonts/AmsiPro-Bold.otf</string>
+    <string name="font_regular">fonts/AmsiPro-Regular.otf</string>
 
     <string name="app_name">Smart_test</string>
 
     <!-- Action bar titles -->
     <string name="task_title">Tasks</string>
-    <string name="task_detail">Task details</string>
+    <string name="task_detail">Task Details</string>
 
     <!-- saveInstance Bundle key -->
 
@@ -22,7 +26,7 @@
 
     <!-- time formats -->
     <string name="date_format">yyyy-MM-dd</string>
-    <string name="short_date_format">MMM dd</string>
+    <string name="short_date_format">MMM dd yyyy</string>
     <string name="time_format">HH:mm:ss</string>
     <string name="full_time_format">yyyy-MM-dd HH:mm:ss</string>
 
@@ -54,4 +58,14 @@
     <!-- Button text -->
     <string name="button_resolve">Resolve</string>
     <string name="button_cant_resolve">Can\'t resolve</string>
+
+    <!-- Label texts -->
+    <string name="due_date">Due date</string>
+    <string name="days_left">Days left</string>
+
+    <!-- Alert text -->
+    <string name="alert">Internet connection failed!</string>
+    <string name="exit">Exit!</string>
+    <string name="alert_tag">ALERT</string>
+
 </resources>
