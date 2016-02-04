@@ -1,9 +1,10 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.example.jelena.smart_test.R;
 import com.example.jelena.smart_test.utils.*;
 
 import java.util.ArrayList;

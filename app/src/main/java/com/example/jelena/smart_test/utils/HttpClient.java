@@ -57,6 +57,7 @@ public class HttpClient {
             url = new URL(url_address);
             TrustManagerManipulator.allowAllSSL();
             connection = (HttpsURLConnection) url.openConnection();
+            connection.setConnectTimeout(10000);
             inputStream=connection.getInputStream();
             int read=-1;
             byte[] buffer=new byte[1024];
@@ -91,6 +92,7 @@ public class HttpClient {
             url = new URL(url_address);
             TrustManagerManipulator.allowAllSSL();
             httpConnection = (HttpURLConnection) url.openConnection();
+            httpConnection.setConnectTimeout(10000);
             inputStream=httpConnection.getInputStream();
             int read=-1;
             byte[] buffer=new byte[1024];
@@ -125,10 +127,6 @@ public class HttpClient {
         private static TrustManager[] trustManagers;
         private static final X509Certificate[] acceptedIssuers = new X509Certificate[] {};
 
-
-        public boolean isClientTrusted(X509Certificate[] chain) {
-            return true;
-        }
 
         public boolean isServerTrusted(X509Certificate[] chain) {
             return true;
