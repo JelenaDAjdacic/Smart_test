@@ -1,8 +1,6 @@
 package com.example.jelena.smart_test.utils;
 
-/**
- * Created by Win 7 on 28.1.2016.
- */
+
 public class AppParams {
 
     //JSON Url
