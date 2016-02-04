@@ -49,7 +49,7 @@
                 android:layout_marginTop="@dimen/title_divider_space"
                 android:layout_marginBottom="@dimen/divider_label_space"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/divider_height"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
 

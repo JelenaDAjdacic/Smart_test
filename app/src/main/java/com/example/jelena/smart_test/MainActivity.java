@@ -304,8 +304,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void showTasks(){
+
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
         vpPager.setAdapter(adapterViewPager);
         vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
 

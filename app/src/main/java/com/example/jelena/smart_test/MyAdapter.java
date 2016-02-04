@@ -89,6 +89,7 @@ class MyAdapter extends BaseAdapter {
         grid= (LinearLayout) row.findViewById(R.id.grid);
 
     }
+
     public void updateView(View row, int position){
 
         componentInitialization(row);
@@ -113,7 +114,7 @@ class MyAdapter extends BaseAdapter {
 
             colorRowByStatus(row, position, context, R.drawable.row_unresolved,  R.color.red, View.GONE);
 
-        }
+       }
         else {
 
             colorRowByStatus(row, position, context, R.drawable.row,  R.color.red, View.VISIBLE);

@@ -3,6 +3,7 @@
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_padding">4dp</dimen>
 
     <!-- Dialog margins and spaces. -->
 
@@ -20,11 +21,18 @@
     <dimen name="min_height">80dp</dimen>
     <dimen name="corner">5dp</dimen>
 
-    <!--Font siyes-->
+    <!--Font sizes-->
 
     <dimen name="bold_letters">15sp</dimen>
     <dimen name="action_bar_letters">20sp</dimen>
     <dimen name="regular_letters">10sp</dimen>
+
+    <!--Grid margins-->
+
+    <dimen name="grid_margin_top">30dp</dimen>
+    <dimen name="grid_margin_left">10dp</dimen>
+    <dimen name="grid_margin_right">10dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
 
 
 </resources>

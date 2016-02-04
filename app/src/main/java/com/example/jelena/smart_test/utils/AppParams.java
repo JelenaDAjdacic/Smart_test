@@ -6,7 +6,7 @@ package com.example.jelena.smart_test.utils;
 public class AppParams {
 
     //JSON Url
-   public final static String URL_TASKS="https://demo8035300.mockable.io/tasks";
+   public final static String URL_TASKS="http://demo5172197.mockable.io/tasks";
 
     // JSON Node names
     public static final String TAG_TASKS = "tasks ";

@@ -1,8 +1,11 @@
 package com.example.jelena.smart_test.utils;
 
+import android.webkit.URLUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -18,29 +21,77 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * Created by Win 7 on 25.1.2016.
- */
+
 public class HttpClient {
-    String https_url;
+
+    String url_address;
     URL url;
     InputStream inputStream=null;
     HttpsURLConnection connection;
+    HttpURLConnection httpConnection ;
+
     ByteArrayOutputStream bufferByte = new ByteArrayOutputStream();
     String content=null;
 
-    public HttpClient(String https_url) {
+    public HttpClient(String url_address) {
 
-        this.https_url = https_url;
+        this.url_address = url_address;
+    }
+    public String getContent(){
+
+
+            if (URLUtil.isHttpUrl(url_address)){
+
+                return getHttpContent();
+            }
+            else
+
+                return getHttpsContent();
+
+
     }
 
-    public String getContent() {
+    public String getHttpsContent() {
         try {
 
-            url = new URL(https_url);
+            url = new URL(url_address);
             TrustManagerManipulator.allowAllSSL();
             connection = (HttpsURLConnection) url.openConnection();
             inputStream=connection.getInputStream();
+            int read=-1;
+            byte[] buffer=new byte[1024];
+            while ((read=inputStream.read(buffer))!=-1){
+                bufferByte.write(buffer, 0, read);
+
+            }
+            content=bufferByte.toString();
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (connection!=null) connection.disconnect();
+
+            if (inputStream!=null) try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        return content;
+    }
+    public String getHttpContent() {
+        try {
+
+            url = new URL(url_address);
+            TrustManagerManipulator.allowAllSSL();
+            httpConnection = (HttpURLConnection) url.openConnection();
+            inputStream=httpConnection.getInputStream();
             int read=-1;
             byte[] buffer=new byte[1024];
             while ((read=inputStream.read(buffer))!=-1){

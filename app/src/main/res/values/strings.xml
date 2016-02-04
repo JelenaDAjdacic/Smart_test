@@ -4,7 +4,7 @@
     <string name="font_bold">fonts/AmsiPro-Bold.otf</string>
     <string name="font_regular">fonts/AmsiPro-Regular.otf</string>
 
-    <string name="app_name">Smart_test</string>
+    <string name="app_name">Smart tasks</string>
 
     <!-- Action bar titles -->
     <string name="task_title">Tasks</string>

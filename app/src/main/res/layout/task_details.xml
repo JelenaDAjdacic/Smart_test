@@ -15,17 +15,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/task_details_bg"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="16"
             android:orientation="horizontal"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginRight="@dimen/grid_margin_right"
+            android:layout_marginLeft="@dimen/grid_margin_left"
+            android:layout_marginTop="@dimen/grid_margin_top"
             >
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="0dp"
@@ -35,9 +35,12 @@
                 android:layout_gravity="fill"
                 android:textStyle="bold"
                 android:textColor="@color/red"
-
+                android:textAppearance="@style/TaksDetailTitle"
+                android:layout_marginTop="@dimen/title_top_space"
+                android:layout_marginBottom="@dimen/title_divider_space"
                 />
             <com.example.jelena.smart_test.utils.CustomTextView
+                android:layout_marginTop="@dimen/title_top_space"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/priorityDetail"
                 android:layout_columnSpan="3"
@@ -47,12 +50,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textColor="@color/white"
+                android:layout_marginBottom="@dimen/title_divider_space"
                 />
             <View
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/divider_height"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
             <com.example.jelena.smart_test.utils.CustomTextView
@@ -62,7 +64,8 @@
                 android:id="@+id/labelDueDate"
                 android:layout_columnSpan="8"
                 android:layout_gravity="start"
-                android:layout_marginBottom="7dp"
+                android:layout_marginTop="@dimen/divider_label_space"
+                android:layout_marginBottom="@dimen/label_dates_space"
                 />
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
@@ -71,7 +74,8 @@
                 android:id="@+id/labelDaysLeft"
                 android:layout_columnSpan="8"
                 android:layout_gravity="end"
-                android:layout_marginBottom="7dp"/>
+                android:layout_marginTop="@dimen/divider_label_space"
+                android:layout_marginBottom="@dimen/label_dates_space"/>
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:textColor="@color/red"
                 android:layout_width="wrap_content"
@@ -79,7 +83,9 @@
                 android:id="@+id/dueDateDetail"
                 android:layout_columnSpan="8"
                 android:layout_gravity="start"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/date_bottom_space"
+                />
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:textColor="@color/red"
                 android:layout_width="wrap_content"
@@ -87,28 +93,28 @@
                 android:id="@+id/daysLeftDetail"
                 android:layout_columnSpan="8"
                 android:layout_gravity="end"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/date_bottom_space"/>
             <View
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/divider_height"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
             <com.example.jelena.smart_test.utils.CustomTextView
+                android:layout_marginTop="@dimen/title_top_space"
+                android:layout_marginBottom="@dimen/title_divider_space"
                 android:layout_columnSpan="16"
                 android:id="@+id/descriptionDetail" />
             <View
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/divider_height"
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16"/>
             <com.example.jelena.smart_test.utils.CustomTextView
+                android:layout_marginTop="@dimen/title_top_space"
+                android:layout_marginBottom="@dimen/title_divider_space"
                 android:layout_columnSpan="16"
                 android:id="@+id/statusDetail"
-                android:layout_marginBottom="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/red"
                 />
@@ -120,9 +126,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:visibility="gone"
         android:id="@+id/buttonContainer">
 
@@ -149,7 +155,6 @@
             android:layout_weight="1"
             android:textAppearance="@style/ButtonText"
             android:layout_gravity="start"/>
-
 
     </LinearLayout>
     <LinearLayout

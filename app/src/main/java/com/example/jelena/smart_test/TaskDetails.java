@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,6 +42,10 @@ public class TaskDetails extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_details);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //get data for selected day
         Intent i=getIntent();
@@ -84,8 +89,6 @@ public class TaskDetails extends AppCompatActivity {
 
     }
     public  void updateTask(){
-
-        Toast.makeText(getApplicationContext(),SharedPreferenceUtils.getString(this,MODE_PRIVATE, AppParams.KEY_COMMENTS, id),Toast.LENGTH_SHORT).show();
 
         titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
         dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
@@ -149,8 +152,19 @@ public class TaskDetails extends AppCompatActivity {
         titleDetail.setTextColor(ContextCompat.getColor(this, idColor));
         dueDateDetail.setTextColor(ContextCompat.getColor(this, idColor));
         daysLeftDetail.setTextColor(ContextCompat.getColor(this, idColor));
-        statusDetail.setTextColor(ContextCompat.getColor(this,statusColor));
+        statusDetail.setTextColor(ContextCompat.getColor(this, statusColor));
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //Write your logic here
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
