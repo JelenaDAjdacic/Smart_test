@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
+import com.example.jelena.smart_test.ui.AlertDialog;
 import com.example.jelena.smart_test.utils.*;
 
 
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showAlert(){
 
-        com.example.jelena.smart_test.AlertDialog dialog=new com.example.jelena.smart_test.AlertDialog();
+        AlertDialog dialog=new AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 

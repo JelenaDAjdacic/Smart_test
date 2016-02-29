@@ -2,14 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
+
     <android.support.v4.view.ViewPager
-        android:visibility="gone"
         android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:outlineProvider="background">
+        android:outlineProvider="background"
+        android:visibility="gone">
+
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/pager_header"
             android:layout_width="match_parent"
@@ -17,24 +19,27 @@
             android:layout_gravity="top"
             android:paddingBottom="@dimen/activity_padding"
             android:paddingTop="@dimen/activity_padding"
-            android:textAppearance="@style/PagerTabStripText"/>
+            android:textAppearance="@style/PagerTabStripText" />
 
     </android.support.v4.view.ViewPager>
+
     <LinearLayout
         android:id="@+id/logoImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/illustrationImage"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:gravity="center">
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/smart_tasks_logo"/>
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:src="@drawable/smart_tasks_logo" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/illustrationImage"
         android:layout_width="match_parent"
@@ -42,13 +47,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:orientation="vertical">
-            <ImageView
-                android:gravity="center"
-                android:id="@+id/illustration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/intro_screen_illustration"
-                android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/intro_screen_illustration" />
     </LinearLayout>
 
 </RelativeLayout>

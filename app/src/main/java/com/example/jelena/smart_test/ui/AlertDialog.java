@@ -1,4 +1,4 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.ui;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -9,18 +9,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.jelena.smart_test.MainActivity;
+import com.example.jelena.smart_test.R;
+
 /**
  * Created by Win 7 on 3.2.2016.
  */
 public class AlertDialog extends DialogFragment {
 
-    Button exit;
+    private Button exit;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.alert_dialog, null);
+        View view = inflater.inflate(R.layout.alert_dialog, null);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
-        exit= (com.example.jelena.smart_test.utils.CustomButton) view.findViewById(R.id.exit);
+        exit = (com.example.jelena.smart_test.utils.CustomButton) view.findViewById(R.id.exit);
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +38,7 @@ public class AlertDialog extends DialogFragment {
 
     public void onDetach() {
         super.onDetach();
-        MainActivity activity= (MainActivity) getActivity();
+        MainActivity activity = (MainActivity) getActivity();
         activity.finish();
     }
 }

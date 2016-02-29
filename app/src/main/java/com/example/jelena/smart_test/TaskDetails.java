@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.example.jelena.smart_test.ui.CommentDialog;
 import com.example.jelena.smart_test.utils.*;
 
 

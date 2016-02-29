@@ -1,4 +1,4 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.ui;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -15,40 +15,42 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 
+import com.example.jelena.smart_test.R;
+import com.example.jelena.smart_test.TaskDetails;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 
 
 public class CommentDialog extends DialogFragment {
-    Button no;
-    Button yes;
-    Button cancel;
-    EditText comment;
-    Button submit;
-    LinearLayout questionContainer;
-    LinearLayout commentContainer;
-    TaskDetails taskDetails;
 
+    private Button no;
+    private Button yes;
+    private Button cancel;
+    private EditText comment;
+    private Button submit;
+    private LinearLayout questionContainer;
+    private LinearLayout commentContainer;
+    private TaskDetails taskDetails;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.comment_dialog, null);
+        View view = inflater.inflate(R.layout.comment_dialog, null);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
 
-        taskDetails= (TaskDetails) getActivity();
+        taskDetails = (TaskDetails) getActivity();
 
-        questionContainer= (LinearLayout) view.findViewById(R.id.questionContainer);
-        commentContainer= (LinearLayout) view.findViewById(R.id.commentContainer);
+        questionContainer = (LinearLayout) view.findViewById(R.id.questionContainer);
+        commentContainer = (LinearLayout) view.findViewById(R.id.commentContainer);
 
-        no= (Button) view.findViewById(R.id.no);
-        yes= (Button) view.findViewById(R.id.yes);
+        no = (Button) view.findViewById(R.id.no);
+        yes = (Button) view.findViewById(R.id.yes);
 
-        cancel= (Button) view.findViewById(R.id.cancel);
-        submit= (Button) view.findViewById(R.id.submit);
+        cancel = (Button) view.findViewById(R.id.cancel);
+        submit = (Button) view.findViewById(R.id.submit);
 
-        comment= (EditText) view.findViewById(R.id.comment);
+        comment = (EditText) view.findViewById(R.id.comment);
         comment.setFocusableInTouchMode(true);
         comment.setFocusable(true);
 
@@ -71,7 +73,7 @@ public class CommentDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                SharedPreferenceUtils.putString(getActivity(),Context.MODE_PRIVATE,AppParams.KEY_COMMENTS,taskDetails.id,comment.getText().toString());
+                SharedPreferenceUtils.putString(getActivity(), Context.MODE_PRIVATE, AppParams.KEY_COMMENTS, taskDetails.id, comment.getText().toString());
                 taskDetails.onNoClicked();
                 dismiss();
 
@@ -90,10 +92,10 @@ public class CommentDialog extends DialogFragment {
         return view;
     }
 
-   @Override
+    @Override
     public void onDetach() {
         super.onDetach();
-        TaskDetails taskDetails= (TaskDetails) getActivity();
+        TaskDetails taskDetails = (TaskDetails) getActivity();
         taskDetails.onNoClicked();
     }
 
