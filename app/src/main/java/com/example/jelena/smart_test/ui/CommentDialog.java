@@ -1,36 +1,28 @@
-package com.example.jelena.smart_test.ui;
+package com.example.jelena.smart_test;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-
-import com.example.jelena.smart_test.R;
-import com.example.jelena.smart_test.TaskDetails;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 
 
 public class CommentDialog extends DialogFragment {
-
-    private Button no;
-    private Button yes;
-    private Button cancel;
-    private EditText comment;
-    private Button submit;
-    private LinearLayout questionContainer;
-    private LinearLayout commentContainer;
-    private TaskDetails taskDetails;
+    Button no;
+    Button yes;
+    Button cancel;
+    EditText comment;
+    Button submit;
+    LinearLayout questionContainer;
+    LinearLayout commentContainer;
+    TaskDetails taskDetails;
 
 
     @Override

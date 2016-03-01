@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/min_height"
     android:id="@+id/customRow">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -51,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_height"
                 android:background="@android:color/darker_gray"
-                android:layout_columnSpan="16"/>
+                android:layout_columnSpan="16" />
 
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_width="wrap_content"
@@ -71,7 +72,7 @@
                 android:id="@+id/labelDaysLeft"
                 android:layout_columnSpan="8"
                 android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/label_dates_space"/>
+                android:layout_marginBottom="@dimen/label_dates_space" />
 
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:textColor="@color/red"
@@ -81,7 +82,7 @@
                 android:id="@+id/dueDate"
                 android:layout_columnSpan="8"
                 android:layout_gravity="start"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <com.example.jelena.smart_test.utils.CustomTextView
                 android:layout_marginBottom="@dimen/date_bottom_space"
@@ -91,11 +92,12 @@
                 android:id="@+id/countdown"
                 android:layout_columnSpan="8"
                 android:layout_gravity="end"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </GridLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/overlay"
@@ -104,6 +106,7 @@
         android:orientation="horizontal"
         android:background="@drawable/transparent_gray"
         android:gravity="end|center_vertical">
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,6 +114,7 @@
             android:layout_marginRight="@dimen/button_space"
             android:adjustViewBounds="true"
             android:id="@+id/btnNotResolved" />
+
         <ImageButton
             android:id="@+id/btnResolved"
             android:layout_width="wrap_content"
@@ -118,9 +122,7 @@
             android:background="@drawable/btn_resolved"
             android:layout_marginRight="@dimen/button_space"
             android:adjustViewBounds="true" />
-        </LinearLayout>
-
-
+    </LinearLayout>
 
 
 </FrameLayout>

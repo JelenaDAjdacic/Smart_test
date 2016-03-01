@@ -2,13 +2,11 @@ package com.example.jelena.smart_test.utils;
 
 import android.content.Context;
 
+import com.example.jelena.smart_test.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.example.jelena.smart_test.R;
-import  com.example.jelena.smart_test.*;
-
 
 
 public class TimeUtils {

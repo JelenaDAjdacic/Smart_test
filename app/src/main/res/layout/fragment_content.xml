@@ -3,54 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:isScrollContainer="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.jelena.smart_test.MainActivity"
-    android:background="@color/backgroundColor">
 
-    <ListView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/todayTasks"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/between_items" />
-
-    <LinearLayout
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:isScrollContainer="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/emptyScreenContainer"
         android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.jelena.smart_test.MainActivity"
+        android:background="@color/backgroundColor">
 
-        <ImageView
-            android:adjustViewBounds="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/emptyScreenImage"
-            android:scaleType="centerInside"
-            android:src="@drawable/empty_screen_illustration" />
+        <ListView
 
-
-        <com.example.jelena.smart_test.utils.CustomTextView
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no_tasks"
-            android:textAppearance="@style/NoTasksMessage"
-            android:gravity="center_horizontal" />
+            android:id="@+id/todayTasks"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="@dimen/between_items" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/emptyScreenContainer"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emptyScreenImage"
+                android:scaleType="centerInside"
+                android:src="@drawable/empty_screen_illustration" />
+
+
+            <com.example.jelena.smart_test.utils.CustomTextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_tasks"
+                android:textAppearance="@style/NoTasksMessage"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
-    </ScrollView>
+</ScrollView>

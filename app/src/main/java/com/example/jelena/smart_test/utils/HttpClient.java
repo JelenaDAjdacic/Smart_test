@@ -26,27 +26,27 @@ public class HttpClient {
 
     String url_address;
     URL url;
-    InputStream inputStream=null;
+    InputStream inputStream = null;
     HttpsURLConnection connection;
-    HttpURLConnection httpConnection ;
+    HttpURLConnection httpConnection;
 
     ByteArrayOutputStream bufferByte = new ByteArrayOutputStream();
-    String content=null;
+    String content = null;
 
     public HttpClient(String url_address) {
 
         this.url_address = url_address;
     }
-    public String getContent(){
+
+    public String getContent() {
 
 
-            if (URLUtil.isHttpUrl(url_address)){
+        if (URLUtil.isHttpUrl(url_address)) {
 
-                return getHttpContent();
-            }
-            else
+            return getHttpContent();
+        } else
 
-                return getHttpsContent();
+            return getHttpsContent();
 
 
     }
@@ -58,14 +58,14 @@ public class HttpClient {
             TrustManagerManipulator.allowAllSSL();
             connection = (HttpsURLConnection) url.openConnection();
             connection.setConnectTimeout(10000);
-            inputStream=connection.getInputStream();
-            int read=-1;
-            byte[] buffer=new byte[1024];
-            while ((read=inputStream.read(buffer))!=-1){
+            inputStream = connection.getInputStream();
+            int read = -1;
+            byte[] buffer = new byte[1024];
+            while ((read = inputStream.read(buffer)) != -1) {
                 bufferByte.write(buffer, 0, read);
 
             }
-            content=bufferByte.toString();
+            content = bufferByte.toString();
 
 
         } catch (MalformedURLException e) {
@@ -74,9 +74,9 @@ public class HttpClient {
             e.printStackTrace();
         } finally {
 
-            if (connection!=null) connection.disconnect();
+            if (connection != null) connection.disconnect();
 
-            if (inputStream!=null) try {
+            if (inputStream != null) try {
                 inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -86,6 +86,7 @@ public class HttpClient {
         }
         return content;
     }
+
     public String getHttpContent() {
         try {
 
@@ -93,14 +94,14 @@ public class HttpClient {
             TrustManagerManipulator.allowAllSSL();
             httpConnection = (HttpURLConnection) url.openConnection();
             httpConnection.setConnectTimeout(10000);
-            inputStream=httpConnection.getInputStream();
-            int read=-1;
-            byte[] buffer=new byte[1024];
-            while ((read=inputStream.read(buffer))!=-1){
+            inputStream = httpConnection.getInputStream();
+            int read = -1;
+            byte[] buffer = new byte[1024];
+            while ((read = inputStream.read(buffer)) != -1) {
                 bufferByte.write(buffer, 0, read);
 
             }
-            content=bufferByte.toString();
+            content = bufferByte.toString();
 
 
         } catch (MalformedURLException e) {
@@ -109,9 +110,9 @@ public class HttpClient {
             e.printStackTrace();
         } finally {
 
-            if (connection!=null) connection.disconnect();
+            if (connection != null) connection.disconnect();
 
-            if (inputStream!=null) try {
+            if (inputStream != null) try {
                 inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -122,10 +123,10 @@ public class HttpClient {
         return content;
     }
 
-   private static class TrustManagerManipulator implements X509TrustManager {
+    private static class TrustManagerManipulator implements X509TrustManager {
 
         private static TrustManager[] trustManagers;
-        private static final X509Certificate[] acceptedIssuers = new X509Certificate[] {};
+        private static final X509Certificate[] acceptedIssuers = new X509Certificate[]{};
 
 
         public boolean isServerTrusted(X509Certificate[] chain) {
@@ -141,7 +142,7 @@ public class HttpClient {
             });
             SSLContext context = null;
             if (trustManagers == null) {
-                trustManagers = new TrustManager[] { new TrustManagerManipulator() };
+                trustManagers = new TrustManager[]{new TrustManagerManipulator()};
             }
             try {
                 context = SSLContext.getInstance("TLS");

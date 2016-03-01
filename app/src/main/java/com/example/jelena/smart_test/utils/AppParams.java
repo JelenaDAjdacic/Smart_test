@@ -4,7 +4,7 @@ package com.example.jelena.smart_test.utils;
 public class AppParams {
 
     //JSON Url
-   public final static String URL_TASKS="http://demo5172197.mockable.io/tasks";
+    public final static String URL_TASKS = "http://demo5172197.mockable.io/tasks";
 
     // JSON Node names
     public static final String TAG_TASKS = "tasks ";
@@ -16,13 +16,13 @@ public class AppParams {
     public static final String TAG_PRIORITY = "Priority";
 
     //Shared Preferences Keys
-    public static final String KEY_STATUS="AppStatusSharedPref";
-    public static final String KEY_COMMENTS="AppCommentsSharedPref";
+    public static final String KEY_STATUS = "AppStatusSharedPref";
+    public static final String KEY_COMMENTS = "AppCommentsSharedPref";
 
-   //Tasks states
-   public static final String RESOLVED="Resolved";
-   public static final String UNRESOLVED="Unresolved";
-   public static final String CANT_RESOLVE="Can't resolve";
+    //Tasks states
+    public static final String RESOLVED = "Resolved";
+    public static final String UNRESOLVED = "Unresolved";
+    public static final String CANT_RESOLVE = "Can't resolve";
 
     //FragmentContent Bundle Keys
     public static final String BUNDLE_KEY_DATE = "DATE";

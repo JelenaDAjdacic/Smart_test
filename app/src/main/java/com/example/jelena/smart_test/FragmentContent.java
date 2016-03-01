@@ -12,25 +12,26 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.jelena.smart_test.utils.AppParams;
+import com.example.jelena.smart_test.utils.ArrayListManipulator;
 import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 import com.example.jelena.smart_test.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.jelena.smart_test.utils.*;
-
 
 public class FragmentContent extends Fragment {
 
     private ListView taskListView;
-    private ArrayList<HashMap<String, String>> tasksList;
-    private ArrayList<HashMap<String, String>> sortedDailyList;
+    ArrayList<HashMap<String, String>> tasksList;
+    ArrayList<HashMap<String, String>> sortedDailyList;
 
 
-    private MyAdapter adapter;
-    private LinearLayout emptyScreen;
-    private MainActivity mainActivity;
+    MyAdapter adapter;
+    LinearLayout emptyScreen;
+    MainActivity mainActivity;
 
 
     public static FragmentContent newInstance(long date, ArrayList<HashMap<String, String>> tasksList) {

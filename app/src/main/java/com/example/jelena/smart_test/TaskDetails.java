@@ -12,12 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.jelena.smart_test.utils.AppParams;
+import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
+import com.example.jelena.smart_test.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.example.jelena.smart_test.ui.CommentDialog;
-import com.example.jelena.smart_test.utils.*;
 
 
 public class TaskDetails extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class TaskDetails extends AppCompatActivity {
     Button cantresovleButton;
     LinearLayout buttonContainer;
     ImageView image;
-    public String id="";
+    public String id = "";
     int lastpagerpos;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,38 +50,39 @@ public class TaskDetails extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //get data for selected day
-        Intent i=getIntent();
-        tasksList= (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getString(R.string.sorted_array));
-        position=i.getIntExtra(getString(R.string.clicked_item_position), 0);
-        lastpagerpos=i.getIntExtra(getString(R.string.calendar_position), 0);
+        Intent i = getIntent();
+        tasksList = (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getString(R.string.sorted_array));
+        position = i.getIntExtra(getString(R.string.clicked_item_position), 0);
+        lastpagerpos = i.getIntExtra(getString(R.string.calendar_position), 0);
 
-        StringUtils.setActionBarFont(this,getSupportActionBar(),getString(R.string.task_detail));
+        StringUtils.setActionBarFont(this, getSupportActionBar(), getString(R.string.task_detail));
 
         componentInitialization();
 
         updateTask();
     }
 
-    public void showDialog(){
+    public void showDialog() {
 
-        CommentDialog dialog=new CommentDialog();
+        CommentDialog dialog = new CommentDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.dialog));
 
     }
-    private void componentInitialization(){
 
-        id=tasksList.get(position).get(AppParams.TAG_ID);
-        titleDetail= (TextView) findViewById(R.id.titleDetail);
-        dueDateDetail= (TextView) findViewById(R.id.dueDateDetail);
-        priorityDetail= (TextView) findViewById(R.id.priorityDetail);
-        descriptionDetail= (TextView) findViewById(R.id.descriptionDetail);
-        daysLeftDetail= (TextView) findViewById(R.id.daysLeftDetail);
-        statusDetail= (TextView) findViewById(R.id.statusDetail);
-        resolveButton= (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.resolve);
-        cantresovleButton= (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.can_not_resolve);
-        buttonContainer= (LinearLayout) findViewById(R.id.buttonContainer);
-        image= (ImageView) findViewById(R.id.imageView);
+    private void componentInitialization() {
+
+        id = tasksList.get(position).get(AppParams.TAG_ID);
+        titleDetail = (TextView) findViewById(R.id.titleDetail);
+        dueDateDetail = (TextView) findViewById(R.id.dueDateDetail);
+        priorityDetail = (TextView) findViewById(R.id.priorityDetail);
+        descriptionDetail = (TextView) findViewById(R.id.descriptionDetail);
+        daysLeftDetail = (TextView) findViewById(R.id.daysLeftDetail);
+        statusDetail = (TextView) findViewById(R.id.statusDetail);
+        resolveButton = (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.resolve);
+        cantresovleButton = (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.can_not_resolve);
+        buttonContainer = (LinearLayout) findViewById(R.id.buttonContainer);
+        image = (ImageView) findViewById(R.id.imageView);
 
     }
 
@@ -89,7 +91,8 @@ public class TaskDetails extends AppCompatActivity {
         updateTask();
 
     }
-    public  void updateTask(){
+
+    public void updateTask() {
 
         titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
         dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
@@ -98,29 +101,30 @@ public class TaskDetails extends AppCompatActivity {
         daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format)));
 
 
-        if (SharedPreferenceUtils.getString(this,MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.RESOLVED)){
+        if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.RESOLVED)) {
 
             image.setImageResource(R.drawable.resolved_sign);
             colorViewsByStatus(getString(R.string.resolved), R.color.green, R.drawable.oval_shape_resolved, R.color.green);
 
         }
-        if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.CANT_RESOLVE)){
+        if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.CANT_RESOLVE)) {
 
             image.setImageResource(R.drawable.unresolved_sign);
             colorViewsByStatus(getString(R.string.unresolved), R.color.red, R.drawable.oval_style_unresolved, R.color.red);
 
         }
 
-        if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.UNRESOLVED)){
+        if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.UNRESOLVED)) {
 
             colorViewsByStatus(getString(R.string.unresolved), R.color.backgroundColor, R.drawable.oval_style_unresolved, R.color.red);
-            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE))<=0)
+            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE)) <= 0)
 
                 enableStatusChange();
         }
 
     }
-    private void enableStatusChange(){
+
+    private void enableStatusChange() {
 
         buttonContainer.setVisibility(View.VISIBLE);
 
@@ -145,7 +149,8 @@ public class TaskDetails extends AppCompatActivity {
             }
         });
     }
-    private void colorViewsByStatus(String statusText, int statusColor, int idPriorityDrawable, int idColor){
+
+    private void colorViewsByStatus(String statusText, int statusColor, int idPriorityDrawable, int idColor) {
 
         statusDetail.setText(statusText);
         buttonContainer.setVisibility(View.GONE);
@@ -156,6 +161,7 @@ public class TaskDetails extends AppCompatActivity {
         statusDetail.setTextColor(ContextCompat.getColor(this, statusColor));
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

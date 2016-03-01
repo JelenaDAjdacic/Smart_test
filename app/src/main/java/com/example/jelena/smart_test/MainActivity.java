@@ -5,21 +5,23 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
-import com.example.jelena.smart_test.ui.AlertDialog;
-import com.example.jelena.smart_test.utils.*;
-
+import com.example.jelena.smart_test.utils.AppParams;
+import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.HttpClient;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
+import com.example.jelena.smart_test.utils.StringUtils;
+import com.example.jelena.smart_test.utils.TimeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
         showIntro();
 
 
-
-
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -91,19 +91,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (isConnectingToInternet(getApplicationContext())) {
-                if (savedInstanceState==null) {
+            if (savedInstanceState == null) {
 
-                        lastPagerPosition=TimeUtils.getPositionForDay(Calendar.getInstance());
+                lastPagerPosition = TimeUtils.getPositionForDay(Calendar.getInstance());
 
-                    } else {
+            } else {
 
-                    lastPagerPosition=savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
+                lastPagerPosition = savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
 
-                }
+            }
             new GetContacts().execute();
-        }
-        else {
-           showAlert();
+        } else {
+            showAlert();
         }
 
     }
@@ -116,12 +115,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.last_calendar_position), lastPagerPosition);
     }
-
-    public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
 
         private Calendar cal;
 
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
-            return FragmentContent.newInstance(timeForPosition,tasksList);
+            return FragmentContent.newInstance(timeForPosition, tasksList);
         }
 
         @Override
@@ -152,47 +149,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showIntro(){
+    private void showIntro() {
 
         vpPager.setVisibility(View.GONE);
         logo.setVisibility(View.VISIBLE);
         introImage.setVisibility(View.VISIBLE);
 
     }
-    private void showAlert(){
 
-        AlertDialog dialog=new AlertDialog();
+    private void showAlert() {
+
+        com.example.jelena.smart_test.AlertDialog dialog = new com.example.jelena.smart_test.AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 
     }
-    private void hideIntro(){
 
-        if (logo.getVisibility()==View.VISIBLE&&introImage.getVisibility()==View.VISIBLE){
-
+    private void hideIntro() {
+        if (logo.getVisibility() == View.VISIBLE && introImage.getVisibility() == View.VISIBLE) {
             logo.setVisibility(View.GONE);
-            introImage.setVisibility(View.GONE);}
+            introImage.setVisibility(View.GONE);
+        }
+
         vpPager.setVisibility(View.VISIBLE);
 
     }
 
-    private void componentInitialization(){
+    private void componentInitialization() {
 
-        logo=(LinearLayout)findViewById(R.id.logoImage);
-        introImage= (LinearLayout) findViewById(R.id.illustrationImage);
+        logo = (LinearLayout) findViewById(R.id.logoImage);
+        introImage = (LinearLayout) findViewById(R.id.illustrationImage);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
 
-        pTab= (PagerTabStrip) findViewById(R.id.pager_header);
+        pTab = (PagerTabStrip) findViewById(R.id.pager_header);
         pTab.setDrawFullUnderline(false);
         pTab.setTabIndicatorColor(ContextCompat.getColor(mContext, R.color.backgroundColor));
-
 
 
     }
 
 
     //Checking Internet connection
-    private boolean isConnectingToInternet(Context applicationContext){
+    private boolean isConnectingToInternet(Context applicationContext) {
 
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -221,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             // Creating service handler class instance
-            client=new HttpClient(AppParams.URL_TASKS);
+            client = new HttpClient(AppParams.URL_TASKS);
 
             tasksList = new ArrayList<>();
             // Making a request to url and getting response
@@ -260,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // adding contact to contact list
                         tasksList.add(task);
-                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE,AppParams.KEY_STATUS,id).isEmpty()){
+                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id).isEmpty()) {
 
                             SharedPreferenceUtils.putString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id, AppParams.UNRESOLVED);
 
@@ -294,7 +292,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    private void showTasks(){
+
+    private void showTasks() {
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
