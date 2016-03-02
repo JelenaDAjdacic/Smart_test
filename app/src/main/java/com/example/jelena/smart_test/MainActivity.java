@@ -5,23 +5,24 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.example.jelena.smart_test.utils.AppParams;
-import com.example.jelena.smart_test.utils.CalendarOperations;
-import com.example.jelena.smart_test.utils.HttpClient;
-import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
-import com.example.jelena.smart_test.utils.StringUtils;
-import com.example.jelena.smart_test.utils.TimeUtils;
+
+import com.example.jelena.smart_test.model.Response;
+import com.example.jelena.smart_test.model.Tasks;
+import com.example.jelena.smart_test.ui.AlertDialog;
+import com.example.jelena.smart_test.utils.*;
+import com.google.gson.Gson;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,8 +31,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Gson gson;
+    private Response tasksObj;
 
     JSONObject[] jsonObjects;
 
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(getString(R.string.last_calendar_position), lastPagerPosition);
     }
 
+    public class MyPagerAdapter extends CachingFragmentStatePagerAdapter {
+
         private Calendar cal;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
@@ -159,18 +166,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAlert() {
 
-        com.example.jelena.smart_test.AlertDialog dialog = new com.example.jelena.smart_test.AlertDialog();
+        AlertDialog dialog = new AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 
     }
 
     private void hideIntro() {
+
         if (logo.getVisibility() == View.VISIBLE && introImage.getVisibility() == View.VISIBLE) {
+
             logo.setVisibility(View.GONE);
             introImage.setVisibility(View.GONE);
         }
-
         vpPager.setVisibility(View.VISIBLE);
 
     }
@@ -222,13 +230,17 @@ public class MainActivity extends AppCompatActivity {
             client = new HttpClient(AppParams.URL_TASKS);
 
             tasksList = new ArrayList<>();
+
+
             // Making a request to url and getting response
             String jsonStr = client.getContent();
 
 
             if (jsonStr != null) {
                 try {
+
                     JSONObject jsonObj = new JSONObject(jsonStr);
+
 
                     // Getting JSON Array node
                     tasks = jsonObj.getJSONArray(AppParams.TAG_TASKS);
@@ -298,6 +310,18 @@ public class MainActivity extends AppCompatActivity {
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
+
+    }
+
+    public List<Tasks> getTasks(String jsonString) {
+        List<Tasks> tasks = null;
+        gson = new Gson();
+        tasksObj = gson.fromJson(jsonString, Response.class);
+
+        Log.d("Test", String.valueOf(tasksObj.getTasks().size()));
+
+
+        return tasks;
 
     }
 

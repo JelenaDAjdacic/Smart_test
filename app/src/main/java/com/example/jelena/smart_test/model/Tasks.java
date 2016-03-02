@@ -1,46 +1,113 @@
 package com.example.jelena.smart_test.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Tasks {
 
-    @SerializedName("status")
+    @SerializedName("id")
     @Expose
-    private Integer status;
-    @SerializedName("tasks")
+    private String id;
+    @SerializedName("title")
     @Expose
-    private List<Task> tasks = new ArrayList<Task>();
+    private String title;
+    @SerializedName("TargetDate")
+    @Expose
+    private String TargetDate;
+    @SerializedName("DueDate")
+    @Expose
+    private String DueDate;
+    @SerializedName("Description")
+    @Expose
+    private String Description;
+    @SerializedName("Priority")
+    @Expose
+    private Integer Priority;
 
     /**
-     * @return The status
+     * @return The id
      */
-    public Integer getStatus() {
-        return status;
+    public String getId() {
+        return id;
     }
 
     /**
-     * @param status The status
+     * @param id The id
      */
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
-     * @return The tasks
+     * @return The title
      */
-    public List<Task> getTasks() {
-        return tasks;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * @param tasks The tasks
+     * @param title The title
      */
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    /**
+     * @return The TargetDate
+     */
+    public String getTargetDate() {
+        return TargetDate;
+    }
+
+    /**
+     * @param TargetDate The TargetDate
+     */
+    public void setTargetDate(String TargetDate) {
+        this.TargetDate = TargetDate;
+    }
+
+    /**
+     * @return The DueDate
+     */
+    public String getDueDate() {
+        return DueDate;
+    }
+
+    /**
+     * @param DueDate The DueDate
+     */
+    public void setDueDate(String DueDate) {
+        this.DueDate = DueDate;
+    }
+
+    /**
+     * @return The Description
+     */
+    public String getDescription() {
+        return Description;
+    }
+
+    /**
+     * @param Description The Description
+     */
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    /**
+     * @return The Priority
+     */
+    public Integer getPriority() {
+        return Priority;
+    }
+
+    /**
+     * @param Priority The Priority
+     */
+    public void setPriority(Integer Priority) {
+        this.Priority = Priority;
+    }
+
+
 
 }
