@@ -17,8 +17,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
+import com.example.jelena.smart_test.model.Response;
+import com.example.jelena.smart_test.model.Tasks;
 import com.example.jelena.smart_test.ui.AlertDialog;
 import com.example.jelena.smart_test.utils.*;
+import com.google.gson.Gson;
 
 
 import org.json.JSONArray;
@@ -28,8 +31,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Gson gson;
+    private Response tasksObj;
 
     JSONObject[] jsonObjects;
 
@@ -70,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         showIntro();
 
 
-
-
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -91,19 +96,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (isConnectingToInternet(getApplicationContext())) {
-                if (savedInstanceState==null) {
+            if (savedInstanceState == null) {
 
-                        lastPagerPosition=TimeUtils.getPositionForDay(Calendar.getInstance());
+                lastPagerPosition = TimeUtils.getPositionForDay(Calendar.getInstance());
 
-                    } else {
+            } else {
 
-                    lastPagerPosition=savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
+                lastPagerPosition = savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
 
-                }
+            }
             new GetContacts().execute();
-        }
-        else {
-           showAlert();
+        } else {
+            showAlert();
         }
 
     }
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.last_calendar_position), lastPagerPosition);
     }
@@ -138,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
-            return FragmentContent.newInstance(timeForPosition,tasksList);
+            return FragmentContent.newInstance(timeForPosition, tasksList);
         }
 
         @Override
@@ -152,47 +156,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showIntro(){
+    private void showIntro() {
 
         vpPager.setVisibility(View.GONE);
         logo.setVisibility(View.VISIBLE);
         introImage.setVisibility(View.VISIBLE);
 
     }
-    private void showAlert(){
 
-        AlertDialog dialog=new AlertDialog();
+    private void showAlert() {
+
+        AlertDialog dialog = new AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 
     }
-    private void hideIntro(){
 
-        if (logo.getVisibility()==View.VISIBLE&&introImage.getVisibility()==View.VISIBLE){
+    private void hideIntro() {
+
+        if (logo.getVisibility() == View.VISIBLE && introImage.getVisibility() == View.VISIBLE) {
 
             logo.setVisibility(View.GONE);
-            introImage.setVisibility(View.GONE);}
+            introImage.setVisibility(View.GONE);
+        }
         vpPager.setVisibility(View.VISIBLE);
 
     }
 
-    private void componentInitialization(){
+    private void componentInitialization() {
 
-        logo=(LinearLayout)findViewById(R.id.logoImage);
-        introImage= (LinearLayout) findViewById(R.id.illustrationImage);
+        logo = (LinearLayout) findViewById(R.id.logoImage);
+        introImage = (LinearLayout) findViewById(R.id.illustrationImage);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
 
-        pTab= (PagerTabStrip) findViewById(R.id.pager_header);
+        pTab = (PagerTabStrip) findViewById(R.id.pager_header);
         pTab.setDrawFullUnderline(false);
         pTab.setTabIndicatorColor(ContextCompat.getColor(mContext, R.color.backgroundColor));
-
 
 
     }
 
 
     //Checking Internet connection
-    private boolean isConnectingToInternet(Context applicationContext){
+    private boolean isConnectingToInternet(Context applicationContext) {
 
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -221,16 +227,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             // Creating service handler class instance
-            client=new HttpClient(AppParams.URL_TASKS);
+            client = new HttpClient(AppParams.URL_TASKS);
 
             tasksList = new ArrayList<>();
+
+
             // Making a request to url and getting response
             String jsonStr = client.getContent();
 
 
             if (jsonStr != null) {
                 try {
+
                     JSONObject jsonObj = new JSONObject(jsonStr);
+
 
                     // Getting JSON Array node
                     tasks = jsonObj.getJSONArray(AppParams.TAG_TASKS);
@@ -260,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // adding contact to contact list
                         tasksList.add(task);
-                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE,AppParams.KEY_STATUS,id).isEmpty()){
+                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id).isEmpty()) {
 
                             SharedPreferenceUtils.putString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id, AppParams.UNRESOLVED);
 
@@ -294,11 +304,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    private void showTasks(){
+
+    private void showTasks() {
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         vpPager.setCurrentItem(TimeUtils.getPositionForDay(TimeUtils.getDayForPosition(lastPagerPosition)));
+
+    }
+
+    public List<Tasks> getTasks(String jsonString) {
+        List<Tasks> tasks = null;
+        gson = new Gson();
+        tasksObj = gson.fromJson(jsonString, Response.class);
+
+        Log.d("Test", String.valueOf(tasksObj.getTasks().size()));
+
+
+        return tasks;
 
     }
 
