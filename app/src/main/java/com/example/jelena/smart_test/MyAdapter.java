@@ -10,51 +10,51 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.jelena.smart_test.model.Tasks;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CalendarOperations;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 import com.example.jelena.smart_test.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 
 class MyAdapter extends BaseAdapter {
 
-    ArrayList<HashMap<String, String>> dailyTasks;
+    private List<Tasks> dailyTasksList = null;
     private Context context;
-    TextView title;
-    TextView dueDay;
-    TextView countdown;
-    TextView priority;
+    private TextView title;
+    private TextView dueDay;
+    private TextView countdown;
+    private TextView priority;
 
-    String dueDateValue = "";
-    String titleValue = "";
-    String priorityValue = "";
+    private String dueDateValue = "";
+    private String titleValue = "";
+    private int priorityValue = 0;
 
-    String idValue = "";
-    FrameLayout container;
+    private String idValue = "";
+    private FrameLayout container;
 
-    LinearLayout overlay;
-    LinearLayout grid;
+    private LinearLayout overlay;
+    private LinearLayout grid;
 
 
-    public MyAdapter(Context context, ArrayList<HashMap<String, String>> dailyTasks) {
+    public MyAdapter(Context context, List<Tasks> dailyTasksList) {
 
         this.context = context;
-        this.dailyTasks = dailyTasks;
+        this.dailyTasksList = dailyTasksList;
 
 
     }
 
     @Override
     public int getCount() {
-        return dailyTasks.size();
+        return dailyTasksList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dailyTasks.get(position);
+        return dailyTasksList.get(position);
     }
 
     @Override
@@ -94,15 +94,15 @@ class MyAdapter extends BaseAdapter {
 
         componentInitialization(row);
 
-        dueDateValue = dailyTasks.get(position).get(AppParams.TAG_DUE_DATE);
-        titleValue = dailyTasks.get(position).get(AppParams.TAG_TITLE);
-        priorityValue = dailyTasks.get(position).get(AppParams.TAG_PRIORITY);
-        idValue = dailyTasks.get(position).get(AppParams.TAG_ID);
+        dueDateValue = dailyTasksList.get(position).getDueDate();
+        titleValue = dailyTasksList.get(position).getTitle();
+        priorityValue = dailyTasksList.get(position).getPriority();
+        idValue = dailyTasksList.get(position).getId();
 
         dueDay.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(dueDateValue, context.getResources().getString(R.string.date_format), context.getResources().getString(R.string.short_date_format))));
         title.setText(titleValue);
         countdown.setText(CalendarOperations.daysBetweenDates(dueDateValue, context.getResources().getString(R.string.date_format)));
-        priority.setText(priorityValue);
+        priority.setText("" + priorityValue);
 
 
         if (SharedPreferenceUtils.getString(context, Context.MODE_PRIVATE, AppParams.KEY_STATUS, idValue).equals(AppParams.RESOLVED)) {
@@ -126,7 +126,7 @@ class MyAdapter extends BaseAdapter {
         dueDay.setTextColor(ContextCompat.getColor(context, idColor));
         title.setTextColor(ContextCompat.getColor(context, idColor));
         countdown.setTextColor(ContextCompat.getColor(context, idColor));
-        titleValue = dailyTasks.get(position).get(AppParams.TAG_TITLE);
+        titleValue = dailyTasksList.get(position).getTitle();
         priority.setVisibility(priorityVisibility);
 
     }

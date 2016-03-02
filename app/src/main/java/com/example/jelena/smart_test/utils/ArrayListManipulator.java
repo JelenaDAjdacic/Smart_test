@@ -2,57 +2,61 @@ package com.example.jelena.smart_test.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.jelena.smart_test.R;
+import com.example.jelena.smart_test.model.Tasks;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.List;
 
 
 public class ArrayListManipulator {
-    ArrayList<HashMap<String, String>> allTasks = null;
+    List<Tasks> allTasks = null;
     Context context;
     SharedPreferences sharedPreferences;
     String currentDate;
     String status = "";
 
 
-    public ArrayListManipulator(ArrayList<HashMap<String, String>> allTasks, Context context) {
+    public ArrayListManipulator(List<Tasks> allTasks, Context context) {
         this.allTasks = allTasks;
         this.context = context;
         currentDate = CalendarOperations.currentDate(context.getResources().getString(R.string.date_format));
         sharedPreferences = context.getSharedPreferences(AppParams.KEY_STATUS, Context.MODE_PRIVATE);
 
+
     }
 
-    public ArrayList<HashMap<String, String>> findArrayByDate(String date) {
+    public List<Tasks> findArrayByDate(String date) {
 
-        ArrayList<HashMap<String, String>> dailyTasks = new ArrayList<>();
+        List<Tasks> dailyTasks = new ArrayList<Tasks>();
 
         for (int i = 0; i < allTasks.size(); i++) {
 
-            status = sharedPreferences.getString(allTasks.get(i).get(AppParams.TAG_ID), "");
+            status = sharedPreferences.getString(allTasks.get(i).getId(), "");
+            Log.d("Provera", "ALL TASKS" + String.valueOf(allTasks.size()));
 
 
             if (currentDate.compareTo(date) > 0) {
 
 
-                if (allTasks.get(i).get(AppParams.TAG_DUE_DATE).contains(date) && (status.equals(AppParams.UNRESOLVED))) {
+                if (allTasks.get(i).getDueDate().contains(date) && (status.equals(AppParams.UNRESOLVED))) {
 
                     dailyTasks.add(allTasks.get(i));
-                } else if (allTasks.get(i).get(AppParams.TAG_TARGET_DATE).contains(date) && (!status.equals(AppParams.UNRESOLVED))) {
+                } else if (allTasks.get(i).getTargetDate().contains(date) && (!status.equals(AppParams.UNRESOLVED))) {
                     dailyTasks.add(allTasks.get(i));
                 }
 
             } else if (currentDate.compareTo(date) <= 0) {
 
-                if (allTasks.get(i).get(AppParams.TAG_TARGET_DATE).contains(date)) {
+                if (allTasks.get(i).getTargetDate().contains(date)) {
                     dailyTasks.add(allTasks.get(i));
                 }
                 if (currentDate.compareTo(date) == 0) {
 
-                    if ((date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_DUE_DATE), context.getResources().getString(R.string.full_time_format), context.getResources().getString(R.string.date_format))) <= 0) && (status.equals(AppParams.UNRESOLVED)) && (date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).get(AppParams.TAG_TARGET_DATE), context.getResources().getString(R.string.full_time_format), context.getResources().getString(R.string.date_format))) > 0)) {
+                    if ((date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).getDueDate(), context.getResources().getString(R.string.full_time_format), context.getResources().getString(R.string.date_format))) <= 0) && (status.equals(AppParams.UNRESOLVED)) && (date.compareTo(CalendarOperations.convertDateFormat(allTasks.get(i).getTargetDate(), context.getResources().getString(R.string.full_time_format), context.getResources().getString(R.string.date_format))) > 0)) {
 
                         dailyTasks.add(allTasks.get(i));
                     }
@@ -65,25 +69,25 @@ public class ArrayListManipulator {
         return dailyTasks;
     }
 
-    public ArrayList<HashMap<String, String>> filterArrayByStatus(String status, ArrayList<HashMap<String, String>> dailyTasks) {
+    public List<Tasks> filterArrayByStatus(String status, List<Tasks> dailyTasks) {
 
-        ArrayList<HashMap<String, String>> statusTasks = new ArrayList<>();
+       List<Tasks> statusTasks = new ArrayList<Tasks>();
         for (int i = 0; i < dailyTasks.size(); i++) {
-            if (sharedPreferences.getString(dailyTasks.get(i).get(AppParams.TAG_ID), "").equals(status)) {
+            if (sharedPreferences.getString(dailyTasks.get(i).getId(), "").equals(status)) {
                 statusTasks.add(dailyTasks.get(i));
             }
         }
         return statusTasks;
     }
 
-    public ArrayList<HashMap<String, String>> sortTasksForDate(String date) {
+    public List<Tasks> sortTasksForDate(String date) {
 
-        ArrayList<HashMap<String, String>> dailyTasks = new ArrayList<>();
-        ArrayList<HashMap<String, String>> sortedTasks = new ArrayList<>();
+        List<Tasks> dailyTasks = new ArrayList<Tasks>();
+        List<Tasks> sortedTasks = new ArrayList<Tasks>();
 
-        ArrayList<HashMap<String, String>> resolvedTasks = new ArrayList<>();
-        ArrayList<HashMap<String, String>> unresolvedTasks = new ArrayList<>();
-        ArrayList<HashMap<String, String>> cantresolveTasks = new ArrayList<>();
+        List<Tasks> resolvedTasks = new ArrayList<Tasks>();
+        List<Tasks> unresolvedTasks = new ArrayList<Tasks>();
+        List<Tasks> cantresolveTasks = new ArrayList<Tasks>();
 
         dailyTasks = findArrayByDate(date);
 

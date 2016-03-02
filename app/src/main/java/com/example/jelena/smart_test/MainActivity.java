@@ -5,24 +5,27 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
 import com.example.jelena.smart_test.model.Response;
 import com.example.jelena.smart_test.model.Tasks;
-import com.example.jelena.smart_test.ui.AlertDialog;
-import com.example.jelena.smart_test.utils.*;
+import com.example.jelena.smart_test.utils.AppParams;
+import com.example.jelena.smart_test.utils.CachingFragmentStatePagerAdapter;
+import com.example.jelena.smart_test.utils.CalendarOperations;
+import com.example.jelena.smart_test.utils.HttpClient;
+import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
+import com.example.jelena.smart_test.utils.StringUtils;
+import com.example.jelena.smart_test.utils.TimeUtils;
 import com.google.gson.Gson;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> tasksList;
+
+    private String jsonStr="";
 
     HttpClient client;
 
@@ -142,7 +147,11 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
-            return FragmentContent.newInstance(timeForPosition, tasksList);
+            Log.d("Provera", jsonStr);
+            Log.d("Provera", String.valueOf(getTasks(jsonStr).size()));
+
+
+            return FragmentContent.newInstance(timeForPosition, getTasks(jsonStr));
         }
 
         @Override
@@ -166,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAlert() {
 
-        AlertDialog dialog = new AlertDialog();
+        com.example.jelena.smart_test.AlertDialog dialog = new com.example.jelena.smart_test.AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 
@@ -233,11 +242,12 @@ public class MainActivity extends AppCompatActivity {
 
 
             // Making a request to url and getting response
-            String jsonStr = client.getContent();
+            jsonStr = client.getContent();
 
 
             if (jsonStr != null) {
                 try {
+                    initStatus(getTasks(jsonStr));
 
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
@@ -305,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void showTasks() {
 
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
@@ -317,11 +328,19 @@ public class MainActivity extends AppCompatActivity {
         List<Tasks> tasks = null;
         gson = new Gson();
         tasksObj = gson.fromJson(jsonString, Response.class);
+        return tasksObj.getTasks();
 
-        Log.d("Test", String.valueOf(tasksObj.getTasks().size()));
+    }
 
+    private void initStatus(List<Tasks> tasks) {
+        for (int i = 0; i < tasks.size(); i++) {
+            if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, tasks.get(i).getId()).isEmpty()) {
 
-        return tasks;
+                SharedPreferenceUtils.putString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, tasks.get(i).getId(), AppParams.UNRESOLVED);
+
+            }
+        }
+
 
     }
 

@@ -3,7 +3,9 @@ package com.example.jelena.smart_test.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tasks {
+import java.io.Serializable;
+
+public class Tasks implements Serializable{
 
     @SerializedName("id")
     @Expose
