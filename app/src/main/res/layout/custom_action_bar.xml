@@ -9,7 +9,7 @@
     android:paddingTop="7dp"
     android:orientation="horizontal">
 
-    <com.example.jelena.smart_test.utils.CustomTextView
+    <com.example.jelena.smart_test.ui.CustomTextView
         android:id="@+id/titleFragment1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -21,7 +21,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:textColor="@color/red"
                 android:id="@+id/title"
                 android:layout_columnSpan="13"
@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/priority"
@@ -54,7 +54,7 @@
                 android:background="@android:color/darker_gray"
                 android:layout_columnSpan="16" />
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/due_date"
@@ -64,7 +64,7 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="@dimen/label_dates_space" />
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/regular_letters"
@@ -74,7 +74,7 @@
                 android:layout_gravity="end"
                 android:layout_marginBottom="@dimen/label_dates_space" />
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:textColor="@color/red"
                 android:layout_marginBottom="@dimen/date_bottom_space"
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                 android:layout_gravity="start"
                 android:textStyle="bold" />
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:layout_marginBottom="@dimen/date_bottom_space"
                 android:textColor="@color/red"
                 android:layout_width="wrap_content"
@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_unresolved"
             android:layout_marginRight="@dimen/button_space"
+            android:layout_marginEnd="@dimen/button_space"
             android:adjustViewBounds="true"
             android:id="@+id/btnNotResolved" />
 
@@ -121,6 +122,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_resolved"
             android:layout_marginRight="@dimen/button_space"
+            android:layout_marginEnd="@dimen/button_space"
             android:adjustViewBounds="true" />
     </LinearLayout>
 

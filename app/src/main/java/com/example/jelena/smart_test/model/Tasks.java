@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Tasks implements Serializable{
+public class Tasks implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -36,9 +36,9 @@ public class Tasks implements Serializable{
     /**
      * @param id The id
      */
-    public void setId(String id) {
+ /*   public void setId(String id) {
         this.id = id;
-    }
+    }*/
 
     /**
      * @return The title
@@ -50,9 +50,9 @@ public class Tasks implements Serializable{
     /**
      * @param title The title
      */
-    public void setTitle(String title) {
+  /*  public void setTitle(String title) {
         this.title = title;
-    }
+    }*/
 
     /**
      * @return The TargetDate
@@ -64,9 +64,9 @@ public class Tasks implements Serializable{
     /**
      * @param TargetDate The TargetDate
      */
-    public void setTargetDate(String TargetDate) {
+  /*  public void setTargetDate(String TargetDate) {
         this.TargetDate = TargetDate;
-    }
+    }*/
 
     /**
      * @return The DueDate
@@ -78,9 +78,9 @@ public class Tasks implements Serializable{
     /**
      * @param DueDate The DueDate
      */
-    public void setDueDate(String DueDate) {
+   /* public void setDueDate(String DueDate) {
         this.DueDate = DueDate;
-    }
+    }*/
 
     /**
      * @return The Description
@@ -92,9 +92,9 @@ public class Tasks implements Serializable{
     /**
      * @param Description The Description
      */
-    public void setDescription(String Description) {
+   /* public void setDescription(String Description) {
         this.Description = Description;
-    }
+    }*/
 
     /**
      * @return The Priority
@@ -106,10 +106,9 @@ public class Tasks implements Serializable{
     /**
      * @param Priority The Priority
      */
-    public void setPriority(Integer Priority) {
+  /*  public void setPriority(Integer Priority) {
         this.Priority = Priority;
-    }
-
+    }*/
 
 
 }

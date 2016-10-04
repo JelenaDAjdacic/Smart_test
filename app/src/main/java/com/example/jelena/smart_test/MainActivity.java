@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,55 +17,39 @@ import android.widget.LinearLayout;
 
 import com.example.jelena.smart_test.model.Response;
 import com.example.jelena.smart_test.model.Tasks;
+import com.example.jelena.smart_test.network.PullWebContent;
+import com.example.jelena.smart_test.network.VolleySingleton;
+import com.example.jelena.smart_test.network.WebRequestCallbackInterface;
+import com.example.jelena.smart_test.ui.AlertDialog;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CachingFragmentStatePagerAdapter;
 import com.example.jelena.smart_test.utils.CalendarOperations;
-import com.example.jelena.smart_test.utils.HttpClient;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 import com.example.jelena.smart_test.utils.StringUtils;
 import com.example.jelena.smart_test.utils.TimeUtils;
-import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Gson gson;
-    private Response tasksObj;
-
-    JSONObject[] jsonObjects;
-
     ProgressDialog pDialog;
 
     //last position before screen rotation
-    int lastPagerPosition;
+    public int lastPagerPosition;
 
-    // tasks JSONArray
-    JSONArray tasks = null;
+    private List<Tasks> mTaskList;
 
-    // Hashmap for ListView
-    ArrayList<HashMap<String, String>> tasksList;
-
-    private String jsonStr="";
-
-    HttpClient client;
-
-    Context mContext;
+    private Context mContext;
     ViewPager vpPager;
     PagerTabStrip pTab;
 
-    LinearLayout logo;
-    LinearLayout introImage;
+    private LinearLayout logo;
+    private LinearLayout introImage;
 
     // custom infinite pager
     private CachingFragmentStatePagerAdapter adapterViewPager;
+    private VolleySingleton mVolleySingleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         StringUtils.setActionBarFont(this, getSupportActionBar(), getString(R.string.task_title));
+        mVolleySingleton = VolleySingleton.getsInstance(this);
 
         componentInitialization();
 
@@ -110,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 lastPagerPosition = savedInstanceState.getInt(getResources().getString(R.string.last_calendar_position));
 
             }
-            new GetContacts().execute();
+            getTasks();
         } else {
             showAlert();
         }
@@ -147,11 +131,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             long timeForPosition = TimeUtils.getDayForPosition(position).getTimeInMillis();
-            Log.d("Provera", jsonStr);
-            Log.d("Provera", String.valueOf(getTasks(jsonStr).size()));
 
-
-            return FragmentContent.newInstance(timeForPosition, getTasks(jsonStr));
+            return FragmentContent.newInstance(timeForPosition, getTasksList());
         }
 
         @Override
@@ -175,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAlert() {
 
-        com.example.jelena.smart_test.AlertDialog dialog = new com.example.jelena.smart_test.AlertDialog();
+        AlertDialog dialog = new AlertDialog();
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), getString(R.string.alert_tag));
 
@@ -219,102 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class GetContacts extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Showing progress dialog
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage(getString(R.string.progress_dialog_message));
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            client = new HttpClient(AppParams.URL_TASKS);
-
-            tasksList = new ArrayList<>();
-
-
-            // Making a request to url and getting response
-            jsonStr = client.getContent();
-
-
-            if (jsonStr != null) {
-                try {
-                    initStatus(getTasks(jsonStr));
-
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-
-                    // Getting JSON Array node
-                    tasks = jsonObj.getJSONArray(AppParams.TAG_TASKS);
-
-                    // looping through All Contacts
-                    for (int i = 0; i < tasks.length(); i++) {
-                        JSONObject tasksJSONObject = tasks.getJSONObject(i);
-
-                        String id = tasksJSONObject.getString(AppParams.TAG_ID);
-                        String title = tasksJSONObject.getString(AppParams.TAG_TITLE);
-                        String targetDate = tasksJSONObject.getString(AppParams.TAG_TARGET_DATE);
-                        String dueDate = tasksJSONObject.getString(AppParams.TAG_DUE_DATE);
-                        String description = tasksJSONObject.getString(AppParams.TAG_DESCRIPTION);
-                        String priority = tasksJSONObject.getString(AppParams.TAG_PRIORITY);
-
-
-                        // tmp hashmap for single contact
-                        HashMap<String, String> task = new HashMap<>();
-
-                        // adding each child node to HashMap key => value
-                        task.put(AppParams.TAG_ID, id);
-                        task.put(AppParams.TAG_TITLE, title);
-                        task.put(AppParams.TAG_TARGET_DATE, targetDate);
-                        task.put(AppParams.TAG_DUE_DATE, dueDate);
-                        task.put(AppParams.TAG_DESCRIPTION, description);
-                        task.put(AppParams.TAG_PRIORITY, priority);
-
-                        // adding contact to contact list
-                        tasksList.add(task);
-                        if (SharedPreferenceUtils.getString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id).isEmpty()) {
-
-                            SharedPreferenceUtils.putString(mContext, MODE_PRIVATE, AppParams.KEY_STATUS, id, AppParams.UNRESOLVED);
-
-                        }
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
-
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-
-            // Updating parsed JSON data into ListView
-
-            hideIntro();
-            showTasks();
-
-        }
-
-    }
-
 
     private void showTasks() {
 
@@ -324,11 +209,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public List<Tasks> getTasks(String jsonString) {
-        List<Tasks> tasks = null;
-        gson = new Gson();
-        tasksObj = gson.fromJson(jsonString, Response.class);
-        return tasksObj.getTasks();
+    public List<Tasks> getTasksList() {
+
+        return mTaskList;
+
+    }
+
+    public void setTasks(List<Tasks> list) {
+        mTaskList = list;
 
     }
 
@@ -342,6 +230,46 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void getTasks() {
+
+        // Showing progress dialog
+        pDialog = new ProgressDialog(MainActivity.this);
+        pDialog.setMessage(getString(R.string.progress_dialog_message));
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        PullWebContent<Response> content =
+                new PullWebContent<>(Response.class, AppParams.URL_TASKS, mVolleySingleton);
+
+        content.setCallbackListener(new WebRequestCallbackInterface<Response>() {
+            @Override
+            public void webRequestSuccess(boolean success, Response response) {
+                if (success) {
+                    // Dismiss the progress dialog
+                    if (pDialog.isShowing())
+                        pDialog.dismiss();
+
+                    Log.d("TASKS", "" + response.getTasks().size());
+                    setTasks(response.getTasks());
+                    initStatus(getTasksList());
+                    hideIntro();
+                    showTasks();
+
+                }
+
+            }
+
+            @Override
+            public void webRequestError(String error) {
+                // Dismiss the progress dialog
+                if (pDialog.isShowing())
+                    pDialog.dismiss();
+            }
+        });
+
+        content.pullList();
     }
 
 

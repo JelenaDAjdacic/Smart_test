@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 */
 public abstract class CachingFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     // Sparse array to keep track of registered fragments in memory
-    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
     public CachingFragmentStatePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

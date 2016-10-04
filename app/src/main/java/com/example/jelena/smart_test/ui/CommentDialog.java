@@ -1,4 +1,4 @@
-package com.example.jelena.smart_test;
+package com.example.jelena.smart_test.ui;
 
 import android.app.DialogFragment;
 import android.content.Context;
@@ -10,37 +10,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.jelena.smart_test.R;
+import com.example.jelena.smart_test.TaskDetails;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 
 
 public class CommentDialog extends DialogFragment {
-    Button no;
-    Button yes;
-    Button cancel;
-    EditText comment;
-    Button submit;
-    LinearLayout questionContainer;
-    LinearLayout commentContainer;
-    TaskDetails taskDetails;
+
+    private EditText comment;
+    private LinearLayout questionContainer;
+    private LinearLayout commentContainer;
+    private TaskDetails taskDetails;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.comment_dialog, null);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
+        if (getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_style);
+        }
 
         taskDetails = (TaskDetails) getActivity();
 
         questionContainer = (LinearLayout) view.findViewById(R.id.questionContainer);
         commentContainer = (LinearLayout) view.findViewById(R.id.commentContainer);
 
-        no = (Button) view.findViewById(R.id.no);
-        yes = (Button) view.findViewById(R.id.yes);
+        Button no = (Button) view.findViewById(R.id.no);
+        Button yes = (Button) view.findViewById(R.id.yes);
 
-        cancel = (Button) view.findViewById(R.id.cancel);
-        submit = (Button) view.findViewById(R.id.submit);
+        Button cancel = (Button) view.findViewById(R.id.cancel);
+        Button submit = (Button) view.findViewById(R.id.submit);
 
         comment = (EditText) view.findViewById(R.id.comment);
         comment.setFocusableInTouchMode(true);

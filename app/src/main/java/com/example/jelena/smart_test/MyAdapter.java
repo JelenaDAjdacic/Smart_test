@@ -28,13 +28,9 @@ class MyAdapter extends BaseAdapter {
     private TextView countdown;
     private TextView priority;
 
-    private String dueDateValue = "";
     private String titleValue = "";
-    private int priorityValue = 0;
 
-    private String idValue = "";
     private FrameLayout container;
-
     private LinearLayout overlay;
     private LinearLayout grid;
 
@@ -94,15 +90,15 @@ class MyAdapter extends BaseAdapter {
 
         componentInitialization(row);
 
-        dueDateValue = dailyTasksList.get(position).getDueDate();
+        String dueDateValue = dailyTasksList.get(position).getDueDate();
         titleValue = dailyTasksList.get(position).getTitle();
-        priorityValue = dailyTasksList.get(position).getPriority();
-        idValue = dailyTasksList.get(position).getId();
+        int priorityValue = dailyTasksList.get(position).getPriority();
+        String idValue = dailyTasksList.get(position).getId();
 
         dueDay.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(dueDateValue, context.getResources().getString(R.string.date_format), context.getResources().getString(R.string.short_date_format))));
         title.setText(titleValue);
         countdown.setText(CalendarOperations.daysBetweenDates(dueDateValue, context.getResources().getString(R.string.date_format)));
-        priority.setText("" + priorityValue);
+        priority.setText(context.getString(R.string.priority, priorityValue));
 
 
         if (SharedPreferenceUtils.getString(context, Context.MODE_PRIVATE, AppParams.KEY_STATUS, idValue).equals(AppParams.RESOLVED)) {

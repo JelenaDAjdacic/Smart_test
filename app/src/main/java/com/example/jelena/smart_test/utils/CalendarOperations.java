@@ -6,12 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by mirna on 26.1.2016.
- */
+
 public class CalendarOperations {
 
-    static Calendar c = null;
+    private static Calendar c = null;
 
     public CalendarOperations() {
         c = Calendar.getInstance();
@@ -27,7 +25,7 @@ public class CalendarOperations {
         return formattedDate;
     }
 
-    public static Date currentDate() {
+    private static Date currentDate() {
         Date date = null;
 
         date = c.getTime();
@@ -50,7 +48,7 @@ public class CalendarOperations {
         return formattedDate;
     }
 
-    public static Date stringToDateConversion(String dateString, String format) {
+    static Date stringToDateConversion(String dateString, String format) {
 
         Date date = null;
         DateFormat dateFormat = new SimpleDateFormat(format);

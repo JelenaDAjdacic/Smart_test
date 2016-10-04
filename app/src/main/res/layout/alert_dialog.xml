@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dialog_margin">
 
-            <com.example.jelena.smart_test.utils.CustomButton
+            <com.example.jelena.smart_test.ui.CustomButton
                 android:textAppearance="@style/ButtonText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

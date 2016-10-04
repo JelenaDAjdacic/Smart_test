@@ -12,33 +12,35 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.jelena.smart_test.model.Tasks;
+import com.example.jelena.smart_test.ui.CommentDialog;
+import com.example.jelena.smart_test.ui.CustomButton;
 import com.example.jelena.smart_test.utils.AppParams;
 import com.example.jelena.smart_test.utils.CalendarOperations;
 import com.example.jelena.smart_test.utils.SharedPreferenceUtils;
 import com.example.jelena.smart_test.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 
 public class TaskDetails extends AppCompatActivity {
 
-    ArrayList<HashMap<String, String>> tasksList;
+    List<Tasks> tasksList;
     int position;
 
-    TextView titleDetail;
-    TextView dueDateDetail;
-    TextView priorityDetail;
-    TextView descriptionDetail;
-    TextView daysLeftDetail;
-    TextView statusDetail;
+    private TextView titleDetail;
+    private TextView dueDateDetail;
+    private TextView priorityDetail;
+    private TextView descriptionDetail;
+    private TextView daysLeftDetail;
+    private TextView statusDetail;
 
-    Button resolveButton;
-    Button cantresovleButton;
-    LinearLayout buttonContainer;
-    ImageView image;
+    private Button resolveButton;
+    private Button cantresovleButton;
+    private LinearLayout buttonContainer;
+    private ImageView image;
     public String id = "";
-    int lastpagerpos;
+    private int lastpagerpos;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,19 +48,19 @@ public class TaskDetails extends AppCompatActivity {
         setContentView(R.layout.task_details);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         //get data for selected day
         Intent i = getIntent();
-        tasksList = (ArrayList<HashMap<String, String>>) i.getSerializableExtra(getString(R.string.sorted_array));
+        tasksList = (List<Tasks>) i.getSerializableExtra(getString(R.string.sorted_array));
         position = i.getIntExtra(getString(R.string.clicked_item_position), 0);
         lastpagerpos = i.getIntExtra(getString(R.string.calendar_position), 0);
 
         StringUtils.setActionBarFont(this, getSupportActionBar(), getString(R.string.task_detail));
-
         componentInitialization();
-
         updateTask();
     }
 
@@ -72,15 +74,15 @@ public class TaskDetails extends AppCompatActivity {
 
     private void componentInitialization() {
 
-        id = tasksList.get(position).get(AppParams.TAG_ID);
+        id = tasksList.get(position).getId();
         titleDetail = (TextView) findViewById(R.id.titleDetail);
         dueDateDetail = (TextView) findViewById(R.id.dueDateDetail);
         priorityDetail = (TextView) findViewById(R.id.priorityDetail);
         descriptionDetail = (TextView) findViewById(R.id.descriptionDetail);
         daysLeftDetail = (TextView) findViewById(R.id.daysLeftDetail);
         statusDetail = (TextView) findViewById(R.id.statusDetail);
-        resolveButton = (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.resolve);
-        cantresovleButton = (com.example.jelena.smart_test.utils.CustomButton) findViewById(R.id.can_not_resolve);
+        resolveButton = (CustomButton) findViewById(R.id.resolve);
+        cantresovleButton = (CustomButton) findViewById(R.id.can_not_resolve);
         buttonContainer = (LinearLayout) findViewById(R.id.buttonContainer);
         image = (ImageView) findViewById(R.id.imageView);
 
@@ -94,11 +96,11 @@ public class TaskDetails extends AppCompatActivity {
 
     public void updateTask() {
 
-        titleDetail.setText(tasksList.get(position).get(AppParams.TAG_TITLE));
-        dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
-        priorityDetail.setText(tasksList.get(position).get(AppParams.TAG_PRIORITY));
-        descriptionDetail.setText(tasksList.get(position).get(AppParams.TAG_DESCRIPTION));
-        daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).get(AppParams.TAG_DUE_DATE), getResources().getString(R.string.date_format)));
+        titleDetail.setText(tasksList.get(position).getTitle());
+        dueDateDetail.setText(StringUtils.capitalize(CalendarOperations.convertDateFormat(tasksList.get(position).getDueDate(), getResources().getString(R.string.date_format), getResources().getString(R.string.short_date_format))));
+        priorityDetail.setText(getString(R.string.priority,tasksList.get(position).getPriority()));
+        descriptionDetail.setText(tasksList.get(position).getDescription());
+        daysLeftDetail.setText(CalendarOperations.daysBetweenDates(tasksList.get(position).getDueDate(), getResources().getString(R.string.date_format)));
 
 
         if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.RESOLVED)) {
@@ -117,7 +119,7 @@ public class TaskDetails extends AppCompatActivity {
         if (SharedPreferenceUtils.getString(this, MODE_PRIVATE, AppParams.KEY_STATUS, id).equals(AppParams.UNRESOLVED)) {
 
             colorViewsByStatus(getString(R.string.unresolved), R.color.backgroundColor, R.drawable.oval_style_unresolved, R.color.red);
-            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).get(AppParams.TAG_DUE_DATE)) <= 0)
+            if (CalendarOperations.currentDate(getString(R.string.date_format)).compareTo(tasksList.get(position).getDueDate()) <= 0)
 
                 enableStatusChange();
         }

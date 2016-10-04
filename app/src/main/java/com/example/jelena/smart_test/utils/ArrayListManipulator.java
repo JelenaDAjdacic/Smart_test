@@ -13,11 +13,12 @@ import java.util.List;
 
 
 public class ArrayListManipulator {
-    List<Tasks> allTasks = null;
-    Context context;
-    SharedPreferences sharedPreferences;
-    String currentDate;
-    String status = "";
+
+    private List<Tasks> allTasks = null;
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private String currentDate;
+    private String status = "";
 
 
     public ArrayListManipulator(List<Tasks> allTasks, Context context) {

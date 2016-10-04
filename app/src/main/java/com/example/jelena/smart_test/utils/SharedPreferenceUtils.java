@@ -8,7 +8,6 @@ public class SharedPreferenceUtils {
 
 
     private static SharedPreferences sharedPreferences;
-    private static SharedPreferences.Editor editor;
 
     private static void openSharedPreferences(Context context, String key, int mode) {
 
@@ -20,9 +19,9 @@ public class SharedPreferenceUtils {
 
         openSharedPreferences(context, spKey, mode);
 
-        editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getString(Context context, int mode, String spKey, String key) {

@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.jelena.smart_test.R;
+import com.example.jelena.smart_test.ui.CustomTextView;
 
-/**
- * Created by Win 7 on 29.1.2016.
- */
 public class StringUtils {
 
     public static String capitalize(String str) {
@@ -23,7 +21,7 @@ public class StringUtils {
 
         LayoutInflater inflator = LayoutInflater.from(context);
         View v = inflator.inflate(R.layout.custom_action_bar, null);
-        TextView text = (com.example.jelena.smart_test.utils.CustomTextView) v.findViewById(R.id.titleFragment1);
+        TextView text = (CustomTextView) v.findViewById(R.id.titleFragment1);
         text.setText(title);
         actionBar.setCustomView(v);
 

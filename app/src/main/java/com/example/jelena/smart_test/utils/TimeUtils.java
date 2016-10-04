@@ -12,8 +12,8 @@ import java.util.Date;
 public class TimeUtils {
 
 
-    public static final Calendar FIRST_DAY_OF_TIME;
-    public static final Calendar LAST_DAY_OF_TIME;
+    private static final Calendar FIRST_DAY_OF_TIME;
+    private static final Calendar LAST_DAY_OF_TIME;
     public static final int DAYS_OF_TIME;
 
     static {

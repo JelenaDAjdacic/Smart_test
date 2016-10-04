@@ -68,7 +68,6 @@ public class FragmentContent extends Fragment {
                 taskListView = (ListView) view.findViewById(R.id.todayTasks);
 
                 sortedDailyList = new ArrayListManipulator(tasksList, getContext()).sortTasksForDate(TimeUtils.getFormattedDate(context, mills));
-                Log.d("Provera", String.valueOf(tasksList.size()));
 
                 if (sortedDailyList.size() == 0) emptyScreen.setVisibility(View.VISIBLE);
 

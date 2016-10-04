@@ -43,7 +43,7 @@
                 android:src="@drawable/empty_screen_illustration" />
 
 
-            <com.example.jelena.smart_test.utils.CustomTextView
+            <com.example.jelena.smart_test.ui.CustomTextView
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
