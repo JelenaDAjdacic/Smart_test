@@ -6,7 +6,7 @@ public class AppParams {
     /**
      * Url for json docs
      */
-    public final static String URL_TASKS = "http://demo5172197.mockable.io/tasks";
+    public final static String URL_TASKS = "https://factordiary.firebaseapp.com";
 
     /**
      * The default socket timeout in milliseconds
